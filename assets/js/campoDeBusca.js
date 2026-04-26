@@ -1,23 +1,25 @@
 const inputBarraDePesquisa = document.getElementById("inputBarraDePesquisa");
 const resultadosContainer = document.getElementById("resultadosPesquisa");
 
-inputBarraDePesquisa.addEventListener("input", () => {
-  const filtrar = inputBarraDePesquisa.value.toLowerCase();
+if (inputBarraDePesquisa) {
+  inputBarraDePesquisa.addEventListener("input", () => {
+    const filtrar = inputBarraDePesquisa.value.toLowerCase();
 
-  if (filtrar.length < 2) {
-    document.getElementById("resultadosPesquisa").innerHTML = "";
-    resultadosContainer.style.display = "none";  
-    return;
-  }
+    if (filtrar.length < 2) {
+      document.getElementById("resultadosPesquisa").innerHTML = "";
+      resultadosContainer.style.display = "none";
+      return;
+    }
 
-  resultadosContainer.style.display = "block";
+    resultadosContainer.style.display = "block";
 
-  const produtosFiltrados = [...Jogos, ...Hardware].filter((p) =>
-    p.nome.toLowerCase().includes(filtrar),
-  );
+    const produtosFiltrados = [...Jogos, ...Hardware].filter((p) =>
+      p.nome.toLowerCase().includes(filtrar),
+    );
 
-  exibirResultados(produtosFiltrados);
-});
+    exibirResultados(produtosFiltrados);
+  });
+}
 
 function exibirResultados(produtos) {
   resultadosContainer.innerHTML = "";
@@ -54,8 +56,11 @@ function exibirResultados(produtos) {
 }
 
 document.addEventListener("click", (e) => {
-    const container = document.getElementById("resultadosPesquisa");
-    if (!inputBarraDePesquisa.contains(e.target) && !container.contains(e.target)) {
-        container.innerHTML = "";
-    }
+  const container = document.getElementById("resultadosPesquisa");
+  if (
+    !inputBarraDePesquisa.contains(e.target) &&
+    !container.contains(e.target)
+  ) {
+    container.innerHTML = "";
+  }
 });

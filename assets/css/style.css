@@ -104,11 +104,11 @@ header .divBarraDePesquisa button {
 .resultadosPesquisa {
     position: absolute;
     display: none;
-    top: 100%;
+    top: 90%;
     right: 250px;
     width: 30%;
     background: linear-gradient(to top, rgb(32, 31, 31), rgb(34, 13, 40), rgb(11, 6, 12));
-    border: 1px solid #00cc6e;
+    border: 1px solid #00cc6e 1px solid #00cc6e;
     border-radius: 8px;
     z-index: 1000;
     max-height: 400px;

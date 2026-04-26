@@ -17,10 +17,10 @@ if (!usuarioLogadoPerfil) {
 } else {
     const pedidosUsuario = pedidosPerfil.filter(p => p.idUsuario === usuarioLogadoPerfil.id);
 
-    nomeDoUsuario.textContent = usuarioLogadoPerfil.nome;
-    emailDoUsuario.textContent = usuarioLogadoPerfil.email;
-    dataCadastroDoUsuario.textContent = usuarioLogadoPerfil.data;
-    quantidadeComprasFeitas.textContent = pedidosUsuario.length;
+    if (nomeDoUsuario) nomeDoUsuario.textContent = usuarioLogadoPerfil.nome;
+    if (emailDoUsuario) emailDoUsuario.textContent = usuarioLogadoPerfil.email;
+    if (dataCadastroDoUsuario) dataCadastroDoUsuario.textContent = usuarioLogadoPerfil.data;
+    if (quantidadeComprasFeitas) quantidadeComprasFeitas.textContent = pedidosUsuario.length;
 
     if (buttonSairPerfil) {
         buttonSairPerfil.addEventListener('click', () => {

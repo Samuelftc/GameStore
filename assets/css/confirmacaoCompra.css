@@ -1,10 +1,4 @@
-* {
-    margin: 0;
-    padding: 0;
-    box-sizing: border-box;
-}
-
-body {
+.bodyConfirmacao {
     font-family: 'Orbitron', sans-serif;
     background: linear-gradient(135deg, #0f0f1a, #1a1a2e);
     color: #fff;
@@ -14,13 +8,13 @@ body {
     align-items: center;
 }
 
-main {
+.mainConfirmacao {
     width: 100%;
     max-width: 800px;
     padding: 30px;
 }
 
-h1 {
+.bodyConfirmacao h1 {
     text-align: center;
     margin-bottom: 30px;
     color: #00ffcc;
@@ -73,7 +67,7 @@ h1 {
     border-bottom: none;
 }
 
-a {
+.bodyConfirmacao a {
     display: inline-block;
     margin-top: 25px;
     text-align: center;
@@ -86,6 +80,6 @@ a {
     transition: 0.3s ease;
 }
 
-a:hover {
+.bodyConfirmacao a:hover {
     background: #00ccaa;
 }

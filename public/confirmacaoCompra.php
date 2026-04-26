@@ -18,8 +18,8 @@ require_once '../config/config.php';
     <title>Finalização da compra</title>
 </head>
 
-<body>
-    <main>
+<body class="bodyConfirmacao">
+    <main class="mainConfirmacao">
         <h1>Compra Confirmada!</h1>
         <article class="containerConfirmacao">
             <p><strong>ID do Pedido: </strong> <span id="idPedido"></span></p>
@@ -38,7 +38,7 @@ require_once '../config/config.php';
             <p><strong>Total: </strong> <span id="totalCompra"></span></p>
         </article>
 
-        <a href="<?= BASE_URL ?>/public/index.php" class="btnVoltar">Voltar para home</a>
+        <a href="<?= BASE_URL ?>/public/index.php" class="btnVoltar" id="btnVoltar">Voltar para home</a>
     </main>
 
     <script src="<?= JS_URL ?>/confirmacaoCompra.js" defer></script>

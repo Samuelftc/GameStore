@@ -35,11 +35,13 @@ function verificarBtnCompra() {
     }
 }
 
-btnFinalizarCompra.addEventListener('click', () => {
-    if (itensNoCarrinho.length > 0) {
-        window.location.href = 'checkout.php';
-    }
-});
+if (btnFinalizarCompra) {
+    btnFinalizarCompra.addEventListener('click', () => {
+        if (itensNoCarrinho.length > 0) {
+            window.location.href = 'checkout.php';
+        }
+    });
+}
 
 // Renderização do carrinho
 function atualizarCarrinho() {
@@ -175,8 +177,8 @@ function salvarCarrinho() {
     localStorage.setItem(chaveCarrinho, JSON.stringify(itensNoCarrinho));
 }
 
-atualizarCarrinho();
-
-
+if (listaCarrinho) {
+    atualizarCarrinho();
+}
 
 // Animações de entrada e saida de carrinho

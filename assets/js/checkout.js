@@ -2,7 +2,6 @@ const informacoesCheckout = document.getElementById('informacoesCheckout');
 const totalCheckout = document.getElementById('totalCheckout');
 const btnPagar = document.getElementById('btnPagar');
 const total = itensNoCarrinho.reduce((acc, item) => acc + item.preco * item.quantidade, 0);
-const usuarioLogado = JSON.parse(localStorage.getItem('usuarioLogado'));
 // Array que vai conter os pedidos do usuario
 const pedidos = JSON.parse(localStorage.getItem('pedidos')) || [];
 
@@ -63,11 +62,16 @@ function BotaoPagar() {
     } catch (erro) {
         btnPagar.disabled = false;
         alert('Erro ao processar pedido');
+        return;
     }
 
+    console.log('antes de zerar:', itensNoCarrinho);
+    console.log('chave usada:', chaveCarrinho);
 
     itensNoCarrinho = [];
-    localStorage.setItem('itensCarrinho', JSON.stringify(itensNoCarrinho));
+    salvarCarrinho();
+
+    console.log('localStorage depois:', localStorage.getItem(chaveCarrinho));
 
     window.location.href = 'confirmacaoCompra.php';
 }
@@ -76,8 +80,8 @@ function criarNovoPedido() {
     const agoraPedido = new Date();
     const novoPedido = {
         id: Date.now(),
-        idUsuario: usuarioLogado.id,
-        nome: usuarioLogado.nome,
+        idUsuario: usuarioAtual.id,
+        nome: usuarioAtual.nome,
         itens: [...itensNoCarrinho],
         total: total,
         status: "Confirmado",
@@ -91,7 +95,7 @@ function criarNovoPedido() {
 }
 
 btnPagar.addEventListener('click', () => {
-    if (!usuarioLogado) {
+    if (!usuarioAtual) {
         alert("Faça login para finalizar a compra");
         return;
     }

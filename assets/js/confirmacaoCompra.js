@@ -11,7 +11,6 @@ const statusCompra = document.getElementById('statusCompra');
 const itensCompra = document.getElementById('itensCompra');
 const totalCompra = document.getElementById('totalCompra');
 
-
 function protecaoBase() {
     if (!usuarioLogado) {
         window.location.href = 'index.php'
