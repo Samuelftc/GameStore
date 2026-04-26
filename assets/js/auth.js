@@ -184,3 +184,13 @@ function chamarToastLogin(message) {
     toast.remove();
   }, 3000);
 }
+
+document.querySelectorAll('.toggleSenha').forEach(icone => {
+    icone.addEventListener('click', () => {
+        const input = icone.previousElementSibling;
+        const visivel = input.type === 'text';
+        input.type = visivel ? 'password' : 'text';
+        icone.classList.toggle('fa-eye', visivel);
+        icone.classList.toggle('fa-eye-slash', !visivel);
+    });
+});

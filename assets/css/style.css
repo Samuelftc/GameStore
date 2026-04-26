@@ -672,6 +672,29 @@ header .divBarraDePesquisa button {
     transform: translateX(-100%);
 }
 
+.inputSenhaWrapper {
+    position: relative;
+    display: flex;
+    align-items: center;
+}
+
+.inputSenhaWrapper .inputAuth {
+    width: 100%;
+    padding-right: 40px;
+}
+
+.toggleSenha {
+    position: absolute;
+    right: 14px;
+    color: rgb(162, 144, 164);
+    cursor: pointer;
+    font-size: 16px;
+    transition: color 0.2s ease;
+}
+
+.toggleSenha:hover {
+    color: #00ff88;
+}
 
 .divAuth h1 {
     font-size: 36px;

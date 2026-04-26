@@ -25,7 +25,10 @@ require_once '../config/config.php';
                     <h1>Login</h1>
                     <form class="formAuth" id="formLoginJS">
                         <input type="email" class="inputAuth" id="inputEmailLogin" placeholder="E-mail" required>
-                        <input type="password" class="inputAuth" id="inputSenhaLogin" placeholder="Senha" required>
+                        <div class="inputSenhaWrapper">
+                            <input type="password" class="inputAuth" id="inputSenhaLogin" placeholder="Senha" required>
+                            <i class="fa-regular fa-eye toggleSenha"></i>
+                        </div>
                         <a href="">Esqueceu sua senha?</a>
                         <button type="submit" id="submitLogin">Login</button>
                     </form>
@@ -37,8 +40,15 @@ require_once '../config/config.php';
                     <form class="formAuth" id="formCadastroJS">
                         <input type="text" class="inputAuth" id="inputNomeCadastrar" placeholder="Nome Completo" required>
                         <input type="email" class="inputAuth" id="inputEmailCadastrar" placeholder="E-mail" required>
-                        <input type="password" class="inputAuth" id="inputSenhaCadastrar" placeholder="Senha" required>
-                        <input type="password" class="inputAuth" id="inputConfirmarSenhaCadastrar" placeholder="Confirmar Senha" required>
+                        <div class="inputSenhaWrapper">
+                            <input type="password" class="inputAuth" id="inputSenhaCadastrar" placeholder="Senha" required>
+                            <i class="fa-regular fa-eye toggleSenha"></i>
+                        </div>
+
+                        <div class="inputSenhaWrapper">
+                            <input type="password" class="inputAuth" id="inputConfirmarSenhaCadastrar" placeholder="Confirmar Senha" required>
+                            <i class="fa-regular fa-eye toggleSenha"></i>
+                        </div>
                         <div class="divTermos">
                             <input type="checkbox" name="termos" id="termos" required>
                             <label for="termos">Eu concordo com os <a href="">Termos de Uso</a> e a <a href="">Política de Privacidade</a></label>
