@@ -39,15 +39,21 @@ require_once '../config/config.php';
 
             <li id="liLogin">
                 <button type="button" id="botaoLogin">
-                    <i class="fa-solid fa-user"></i> Login
+                    <i class="fa-solid fa-user"></i> 
+                    <p>Login</p>
                 </button>
             </li>
 
             <li class="carrinhoHeader" id="carrinhoHeader">
                 <button type="button" id="botaoCarrinho">
-                    <i class="fa-solid fa-cart-shopping"></i> Carrinho
+                    <i class="fa-solid fa-cart-shopping"></i>
+                    <p>Carrinho</p>
                 </button>
             </li>
         </ul>
+
+        <button class="btnMenuMobile" id="btnMenuMobile">
+            <i class="fa-solid fa-bars"></i>
+        </button>
     <?php endif ?>
 </header>

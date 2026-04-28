@@ -1,0 +1,92 @@
+#rodape {
+    padding: 80px 0 20px 0;
+    background-color: rgb(10, 5, 14);
+    color: rgb(220, 225, 230);
+}
+
+#rodape #blocosFooter {
+    display: flex;
+    justify-content: center;
+    gap: 50px;
+    margin-left: 50px;
+}
+
+#rodape #basicoRodape {
+    width: 20%;
+}
+
+#rodape #basicoRodape h3 {
+    font-size: 24px;
+}
+
+#rodape #basicoRodape p {
+    font-size: 18px;
+}
+
+#rodape #basicoRodape ul {
+    display: flex;
+    list-style: none;
+    gap: 20px;
+}
+
+#rodape #basicoRodape ul li i {
+    font-size: 18px;
+    background-color: rgb(88, 60, 110);
+    padding: 10px;
+    border-radius: 50%;
+    cursor: pointer;
+    transition: background-color 0.3s ease, transform 0.3s ease, color 0.3s ease;
+}
+
+#rodape #basicoRodape ul li i:hover {
+    background-color: rgb(144, 59, 187);
+    transform: scale(1.1);
+}
+
+#rodape .blocoFooter {
+    width: 20%;
+}
+
+#rodape .blocoFooter h3 {
+    font-size: 24px;
+}
+
+#rodape .blocoFooter ul {
+    list-style: none;
+    padding: 0;
+    margin-top: 10px;
+}
+
+#rodape .blocoFooter ul li {
+    margin-bottom: 10px;
+}
+
+#rodape .blocoFooter ul li a,
+#rodape .blocoFooter ul li i {
+    font-size: 18px;
+    text-decoration: none;
+    color: rgb(175, 164, 180);
+    transition: color 0.3s ease;
+}
+
+#rodape .blocoFooter ul li a:hover,
+#rodape .blocoFooter ul li i:hover {
+    color: rgb(144, 59, 187);
+}
+
+#rodape #contatoFooter ul li {
+    display: flex;
+    gap: 10px;
+    align-items: center;
+}
+
+#rodape hr {
+    width: 60%;
+    text-align: center;
+}
+
+#rodape #copyright {
+    text-align: center;
+    padding-top: 10px;
+    color: rgb(175, 162, 187);
+}

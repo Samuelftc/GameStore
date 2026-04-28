@@ -1,0 +1,15 @@
+/* Arquivo principal de estilos - importa todos os CSSs */
+
+@import "style.css";
+@import "header.css";
+@import "carrinho.css";
+@import "checkout.css";
+@import "auth.css";
+@import "home.css";
+@import "catalogo.css";
+@import "produto.css";
+@import "footer.css";
+@import "meuPerfil.css";
+@import "confirmacaoCompra.css";
+@import "minhasCompras.css";
+/* @import "responsive.css"; */

@@ -1,0 +1,70 @@
+/* Página produto.php */
+/* ===== CONTAINER GERAL ===== */
+#produtoContainer {
+    max-width: 1200px;
+    margin: 60px auto;
+    padding: 20px;
+    color: #fff;
+    border-radius: 10px;
+}
+
+/* ===== INFORMAÇÕES DO PRODUTO ===== */
+.informacoesProduto {
+    display: flex;
+    gap: 50px;
+    align-items: flex-start;
+    margin-bottom: 60px;
+}
+
+/* IMAGEM */
+.informacoesProduto img {
+    width: 420px;
+    max-width: 100%;
+    border-radius: 12px;
+    background-color: #111;
+    animation: flutuar 4s ease-in infinite;
+}
+
+/* BLOCO DE TEXTO */
+.informacoesProduto .info {
+    flex: 1;
+}
+
+/* TÍTULO */
+.informacoesProduto h1 {
+    font-size: 2.2rem;
+    margin-bottom: 20px;
+}
+
+/* PREÇO */
+.informacoesProduto .preco {
+    font-size: 1.4rem;
+    margin-bottom: 20px;
+    color: #00ff88;
+}
+
+/* DETALHES */
+.informacoesProduto p {
+    font-size: 1rem;
+    margin-bottom: 10px;
+    color: #ccc;
+}
+
+/* BOTÃO */
+#btnCarrinho {
+    margin-top: 30px;
+    padding: 14px 28px;
+    font-size: 1rem;
+    font-weight: bold;
+    border: none;
+    border-radius: 8px;
+    background-color: #00ff88;
+    color: #000;
+    cursor: pointer;
+    transition: transform 0.2s ease, background-color 0.2s ease;
+}
+
+#btnCarrinho:hover {
+    background-color: #00cc6e;
+    transform: scale(1.05);
+}

@@ -1,0 +1,142 @@
+/* PÁGINA CATALOGO */
+#conhecaNossosJogos,
+#conhecaNossosProdutos {
+    padding-top: 20px;
+}
+
+.filtros {
+    color: aliceblue;
+}
+
+.conteudoCatalogo {
+    display: flex;
+    gap: 30px;
+}
+
+.filtros {
+    background: linear-gradient(rgb(45, 38, 53), rgb(39, 21, 48));
+    padding: 10px 80px 10px 20px;
+    margin: 20px;
+    border-radius: 10px;
+    box-shadow: 0 0 15px rgb(48, 37, 58);
+    height: min-content;
+}
+
+.filtros h2 {
+    color: rgb(181, 158, 201);
+
+}
+
+.campoFiltro {
+    display: flex;
+    flex-direction: column;
+    gap: 5px;
+}
+
+.campoFiltro h3 {
+    color: rgb(162, 144, 164);
+}
+
+.checkboxFiltro {
+    display: flex;
+    align-items: center;
+    gap: 5px;
+    font-size: 18px;
+}
+
+.checkboxFiltro label:hover {
+    color: rgb(144, 59, 187);
+    cursor: pointer;
+}
+
+.checkboxFiltro input {
+    accent-color: black;
+}
+
+.checkboxFiltro input:checked+label {
+    color: rgb(200, 180, 220);
+    font-weight: bold;
+}
+
+.listaDeProdutos {
+    list-style: none;
+    display: grid;
+    grid-template-columns: repeat(4, 1fr);
+    gap: 30px;
+    padding-right: 50px;
+}
+
+/* ================== RESPONSIVO ============== */
+
+@media (max-width: 1280px) {
+    .listaDeProdutos {
+        grid-template-columns: repeat(3, 1fr);
+        gap: 20px;
+        padding-right: 30px;
+    }
+
+    .filtros {
+        padding: 10px 40px 10px 20px;
+    }
+}
+
+@media (max-width: 1024px) {
+    .listaDeProdutos {
+        grid-template-columns: repeat(2, 1fr);
+        gap: 16px;
+        padding-right: 20px;
+    }
+}
+
+@media (max-width: 768px) {
+    .conteudoCatalogo {
+        flex-direction: column;
+    }
+
+    .filtros {
+        margin: 10px 16px;
+        padding: 10px 20px;
+    }
+
+    .listaDeProdutos {
+        grid-template-columns: repeat(1, 1fr);
+        gap: 16px;
+        padding: 0 16px 16px;
+    }
+
+    .checkboxFiltro {
+        font-size: 16px;
+    }
+}
+
+@media (max-width: 480px) {
+    .listaDeProdutos {
+        grid-template-columns: repeat(1, 1fr);
+        gap: 12px;
+        padding: 0 10px 10px;
+    }
+
+    .filtros {
+        margin: 10px;
+        padding: 10px 16px;
+    }
+
+    .filtros h2 {
+        font-size: 20px;
+    }
+
+    .campoFiltro h3 {
+        font-size: 14px;
+    }
+
+    .checkboxFiltro {
+        font-size: 14px;
+    }
+}
+
+@media (max-width: 360px) {
+    .listaDeProdutos {
+        gap: 10px;
+        padding: 0 8px 8px;
+    }
+}
