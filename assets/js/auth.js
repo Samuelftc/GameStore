@@ -194,3 +194,18 @@ document.querySelectorAll('.toggleSenha').forEach(icone => {
         icone.classList.toggle('fa-eye-slash', !visivel);
     });
 });
+
+const irParaCadastro = document.getElementById('irParaCadastro');
+const irParaLogin = document.getElementById('irParaLogin');
+
+if (irParaCadastro) {
+    irParaCadastro.addEventListener('click', () => {
+        container.classList.add('cadastroAtivo');
+    });
+}
+
+if (irParaLogin) {
+    irParaLogin.addEventListener('click', () => {
+        container.classList.remove('cadastroAtivo');
+    });
+}

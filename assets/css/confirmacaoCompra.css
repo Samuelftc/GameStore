@@ -83,3 +83,80 @@
 .bodyConfirmacao a:hover {
     background: #00ccaa;
 }
+
+/* ================== RESPONSIVO ============== */
+
+@media (max-width: 1280px) {
+    .mainConfirmacao {
+        max-width: 700px;
+    }
+}
+
+@media (max-width: 1024px) {
+    .mainConfirmacao {
+        max-width: 90%;
+    }
+}
+
+@media (max-width: 768px) {
+    .mainConfirmacao {
+        max-width: 100%;
+        padding: 20px 16px;
+    }
+
+    .bodyConfirmacao h1 {
+        font-size: 22px;
+        margin-bottom: 20px;
+    }
+
+    .containerConfirmacao {
+        padding: 16px;
+        gap: 14px;
+    }
+
+    .itemConfirmacao {
+        flex-direction: column;
+        gap: 4px;
+    }
+}
+
+@media (max-width: 480px) {
+    .bodyConfirmacao h1 {
+        font-size: 18px;
+    }
+
+    .containerConfirmacao {
+        padding: 12px;
+    }
+
+    .dadosCompra p,
+    .containerConfirmacao > p {
+        font-size: 13px;
+    }
+
+    .itens h3 {
+        font-size: 14px;
+    }
+
+    .itemConfirmacao {
+        font-size: 12px;
+    }
+
+    .bodyConfirmacao a {
+        width: 80%;
+        text-align: center;
+        padding: 12px;
+        font-size: 14px;
+    }
+}
+
+@media (max-width: 360px) {
+    .bodyConfirmacao h1 {
+        font-size: 16px;
+    }
+
+    .dadosCompra p,
+    .containerConfirmacao > p {
+        font-size: 12px;
+    }
+}

@@ -31,6 +31,9 @@ require_once '../config/config.php';
                         </div>
                         <a href="">Esqueceu sua senha?</a>
                         <button type="submit" id="submitLogin">Login</button>
+                        <button type="button" class="btnAlternarAuth" id="irParaCadastro">
+                            Não tem conta? Cadastre-se
+                        </button>
                     </form>
                 </div>
 
@@ -54,6 +57,9 @@ require_once '../config/config.php';
                             <label for="termos">Eu concordo com os <a href="">Termos de Uso</a> e a <a href="">Política de Privacidade</a></label>
                         </div>
                         <button type="submit" id="submitCadastrar">Cadastrar</button>
+                        <button type="button" class="btnAlternarAuth" id="irParaLogin">
+                            Já tem conta? Faça login
+                        </button>
                     </form>
                 </div>
 

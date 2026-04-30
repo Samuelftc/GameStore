@@ -68,3 +68,86 @@
     background-color: #00cc6e;
     transform: scale(1.05);
 }
+
+/* ================== RESPONSIVO ============== */
+
+@media (max-width: 1280px) {
+    #produtoContainer {
+        max-width: 95%;
+        margin: 40px auto;
+    }
+
+    .informacoesProduto img {
+        width: 360px;
+    }
+}
+
+@media (max-width: 1024px) {
+    .informacoesProduto img {
+        width: 300px;
+    }
+
+    .informacoesProduto h1 {
+        font-size: 1.8rem;
+    }
+}
+
+@media (max-width: 768px) {
+    .informacoesProduto {
+        flex-direction: column;
+        gap: 24px;
+        margin-bottom: 30px;
+    }
+
+    .informacoesProduto img {
+        width: 100%;
+        animation: none;
+    }
+
+    .informacoesProduto h1 {
+        font-size: 1.6rem;
+    }
+
+    .informacoesProduto .preco {
+        font-size: 1.2rem;
+    }
+
+    #btnCarrinho {
+        width: 100%;
+    }
+}
+
+@media (max-width: 480px) {
+    #produtoContainer {
+        margin: 20px auto;
+        padding: 16px;
+    }
+
+    .informacoesProduto h1 {
+        font-size: 1.3rem;
+        margin-bottom: 12px;
+    }
+
+    .informacoesProduto .preco {
+        font-size: 1.1rem;
+    }
+
+    .informacoesProduto p {
+        font-size: 0.9rem;
+    }
+
+    #btnCarrinho {
+        padding: 12px;
+        font-size: 0.9rem;
+    }
+}
+
+@media (max-width: 360px) {
+    .informacoesProduto h1 {
+        font-size: 1.1rem;
+    }
+
+    .informacoesProduto .preco {
+        font-size: 1rem;
+    }
+}

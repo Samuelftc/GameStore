@@ -119,3 +119,62 @@
 #buttonSairPerfil i {
     margin-right: 6px;
 }
+
+/* ================== RESPONSIVO ============== */
+
+@media (max-width: 1024px) {
+    .meuPerfil {
+        width: 300px;
+    }
+}
+
+@media (max-width: 768px) {
+    .meuPerfil {
+        width: 85%;
+    }
+
+    .topoMeuPerfil h2 {
+        font-size: 18px;
+    }
+
+    .nomeDoUsuario {
+        font-size: 16px;
+    }
+
+    .dadosUsuarios {
+        font-size: 14px;
+    }
+}
+
+@media (max-width: 480px) {
+    .meuPerfil {
+        width: 100%;
+    }
+
+    .topoMeuPerfil h2 {
+        font-size: 16px;
+    }
+
+    .buttonNavMeuPerfil {
+        font-size: 13px;
+        padding: 8px;
+    }
+
+    #buttonSairPerfil {
+        font-size: 16px;
+    }
+}
+
+@media (max-width: 360px) {
+    .dadosUsuarios {
+        font-size: 13px;
+    }
+
+    .nomeDoUsuario {
+        font-size: 15px;
+    }
+
+    .emailDoUsuario {
+        font-size: 12px;
+    }
+}

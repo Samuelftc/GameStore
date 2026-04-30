@@ -90,3 +90,88 @@
     padding-top: 10px;
     color: rgb(175, 162, 187);
 }
+
+/* ================== RESPONSIVO ============== */
+
+@media (max-width: 1280px) {
+    #rodape #blocosFooter {
+        gap: 30px;
+        margin-left: 30px;
+    }
+
+    #rodape #basicoRodape,
+    #rodape .blocoFooter {
+        width: 22%;
+    }
+}
+
+@media (max-width: 1024px) {
+    #rodape #blocosFooter {
+        flex-wrap: wrap;
+        gap: 30px;
+        margin-left: 20px;
+    }
+
+    #rodape #basicoRodape,
+    #rodape .blocoFooter {
+        width: 40%;
+    }
+}
+
+@media (max-width: 768px) {
+    #rodape {
+        padding: 50px 0 20px 0;
+    }
+
+    #rodape #blocosFooter {
+        flex-direction: column;
+        gap: 30px;
+        margin-left: 24px;
+    }
+
+    #rodape #basicoRodape,
+    #rodape .blocoFooter {
+        width: 90%;
+    }
+
+    #rodape hr {
+        width: 90%;
+    }
+}
+
+@media (max-width: 480px) {
+    #rodape {
+        padding: 40px 0 16px 0;
+    }
+
+    #rodape #blocosFooter {
+        margin-left: 16px;
+        gap: 24px;
+    }
+
+    #rodape #basicoRodape h3,
+    #rodape .blocoFooter h3 {
+        font-size: 20px;
+    }
+
+    #rodape #basicoRodape p,
+    #rodape .blocoFooter ul li a,
+    #rodape .blocoFooter ul li i {
+        font-size: 15px;
+    }
+
+    #rodape #copyright {
+        font-size: 13px;
+    }
+}
+
+@media (max-width: 360px) {
+    #rodape #blocosFooter {
+        margin-left: 12px;
+    }
+
+    #rodape #basicoRodape h3,
+    #rodape .blocoFooter h3 {
+        font-size: 18px;
+    }
+}

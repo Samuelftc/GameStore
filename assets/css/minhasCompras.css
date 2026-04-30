@@ -155,3 +155,110 @@
     transform: translateY(0);
     box-shadow: 0 0 6px rgba(124, 58, 237, 0.3);
 }
+
+/* ================== RESPONSIVO ============== */
+
+@media (max-width: 1280px) {
+    .containerMinhasCompras {
+        max-width: 800px;
+    }
+}
+
+@media (max-width: 1024px) {
+    .containerMinhasCompras {
+        max-width: 90%;
+        padding: 24px;
+    }
+}
+
+@media (max-width: 768px) {
+    .containerMinhasCompras {
+        width: 95%;
+        margin: 30px auto;
+        padding: 20px;
+        gap: 16px;
+    }
+
+    .containerMinhasCompras h1 {
+        font-size: 22px;
+    }
+
+    .listaMinhasCompras {
+        max-height: 500px;
+    }
+
+    .liMinhaCompra {
+        padding: 16px;
+    }
+
+    .idPedido {
+        font-size: 14px;
+    }
+
+    .voltarHome {
+        width: 100%;
+        text-align: center;
+    }
+}
+
+@media (max-width: 480px) {
+    .containerMinhasCompras {
+        width: 100%;
+        margin: 16px auto;
+        padding: 16px;
+        border-radius: 8px;
+    }
+
+    .containerMinhasCompras h1 {
+        font-size: 18px;
+    }
+
+    .semCompras {
+        font-size: 15px;
+    }
+
+    .liMinhaCompra {
+        padding: 12px;
+    }
+
+    .idPedido {
+        font-size: 13px;
+    }
+
+    .dataPedido,
+    .totalPedido,
+    .quantidadeItens {
+        font-size: 13px;
+    }
+
+    .botaoSaibaMais {
+        width: 100%;
+        text-align: center;
+        font-size: 13px;
+    }
+
+    .containerItensPedido p {
+        font-size: 12px;
+    }
+
+    .voltarHome {
+        font-size: 13px;
+        padding: 8px 14px;
+    }
+}
+
+@media (max-width: 360px) {
+    .containerMinhasCompras h1 {
+        font-size: 16px;
+    }
+
+    .liMinhaCompra {
+        padding: 10px;
+    }
+
+    .dataPedido,
+    .totalPedido,
+    .quantidadeItens {
+        font-size: 12px;
+    }
+}

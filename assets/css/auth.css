@@ -18,24 +18,11 @@
 }
 
 @keyframes fadeOutCadastro {
-    0% {
-        opacity: 0.9;
-    }
-
-    40% {
-        opacity: 0.9;
-    }
-
-    80% {
-        opacity: 1;
-    }
-
-    100% {
-        opacity: 0;
-        transform: translateY(-30px);
-    }
+    0%   { opacity: 0.9; }
+    40%  { opacity: 0.9; }
+    80%  { opacity: 1; }
+    100% { opacity: 0; transform: translateY(-30px); }
 }
-
 
 .bodyAuth header {
     display: flex;
@@ -78,7 +65,6 @@
     flex-direction: column;
     justify-content: center;
     align-items: center;
-    /* background: #000; */
     text-align: center;
     padding: 40px;
 }
@@ -228,7 +214,6 @@
     background-color: transparent;
     color: aliceblue;
     font-weight: bold;
-    /* cursor: pointer; */
     transition: border 0.5s ease, box-shadow 0.5s ease, color 0.5s ease;
 }
 
@@ -238,4 +223,202 @@
     color: #00ff88;
 }
 
-/* Final Auth */
+/* Botão alternar mobile */
+.btnAlternarAuth {
+    background: transparent;
+    border: none;
+    color: rgb(162, 144, 164);
+    font-size: 14px;
+    cursor: pointer;
+    text-align: center;
+    display: none;
+    font-family: 'Orbitron', sans-serif;
+    margin: 0 auto;
+    padding: 8px 0;
+}
+
+.btnAlternarAuth:hover {
+    color: #00ff88;
+}
+
+/* ================== RESPONSIVO ============== */
+
+@media (max-width: 1280px) {
+    .containerAuth {
+        width: 90%;
+    }
+}
+
+@media (max-width: 1024px) {
+    .containerAuth {
+        width: 95%;
+    }
+
+    .divAuth h1 {
+        font-size: 28px;
+    }
+
+    .painel h2 {
+        font-size: 22px;
+    }
+}
+
+@media (max-width: 768px) {
+    .mainAuth {
+        padding: 40px 16px;
+    }
+
+    .containerAuth {
+        width: 100%;
+        height: auto;
+        overflow: visible;
+    }
+
+    .areaForm {
+        position: relative;
+        flex-direction: column;
+        height: auto;
+    }
+
+    .divAuth {
+        width: 100%;
+        padding: 30px 20px;
+    }
+
+    .containerSobreposicao {
+        display: none;
+    }
+
+    #formCadastro {
+        display: none;
+        border-top: 1px solid rgba(255, 255, 255, 0.1);
+    }
+
+    .containerAuth.cadastroAtivo #formLogin {
+        display: none;
+        transform: none;
+    }
+
+    .containerAuth.cadastroAtivo #formCadastro {
+        display: block;
+    }
+
+    .btnAlternarAuth {
+        display: block;
+    }
+
+    .divAuth h1 {
+        font-size: 26px;
+        margin-bottom: 20px;
+    }
+
+    .inputAuth {
+        font-size: 14px;
+        padding: 8px 12px;
+        width: 90%;
+    }
+
+    .inputSenhaWrapper .inputAuth {
+        width: 86%;
+    }
+
+    .inputSenhaWrapper .toggleSenha {
+        font-size: 14px;
+        margin-right: 50px;
+    }
+
+    .formAuth #submitLogin,
+    .formAuth #submitCadastrar {
+        font-size: 14px;
+        padding: 10px;
+        width: 90%;
+    }
+
+    .divTermos {
+        flex-wrap: wrap;
+        text-align: center;
+    }
+
+    .divTermos label {
+        font-size: 13px;
+    }
+
+    .toastCadastro {
+        left: 16px;
+        right: 16px;
+        bottom: 16px;
+        text-align: center;
+    }
+}
+
+@media (max-width: 480px) {
+    .divAuth {
+        padding: 20px 16px;
+    }
+
+    .divAuth h1 {
+        font-size: 22px;
+    }
+
+    .inputAuth {
+        font-size: 14px;
+        padding: 8px 12px;
+        width: 80%;
+    }
+
+    .inputSenhaWrapper .inputAuth {
+        width: 73%;
+    }
+
+    .inputSenhaWrapper .toggleSenha {
+        font-size: 14px;
+        margin-right: 50px;
+    }
+
+    .formAuth {
+        gap: 14px;
+    }
+
+    .formAuth a {
+        font-size: 14px;
+    }
+
+    .formAuth button {
+        font-size: 14px;
+        padding: 10px;
+    }
+
+    .divTermos label {
+        font-size: 12px;
+    }
+}
+
+@media (max-width: 380px) {
+    .inputSenhaWrapper .toggleSenha {
+        margin-right: 40px;
+    }
+
+    .formAuth button {
+        padding: 8px;
+        width: 80%;
+    }
+}
+
+@media (max-width: 360px) {
+    .divAuth h1 {
+        font-size: 20px;
+    }
+
+    .inputAuth {
+        font-size: 13px;
+    }
+
+    .inputSenhaWrapper .inputAuth {
+        width: 70%;
+    }
+
+    .inputSenhaWrapper .toggleSenha {
+        font-size: 14px;
+        margin-right: 25px;
+    }
+}

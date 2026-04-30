@@ -118,3 +118,107 @@
     font-size: 28px;
     font-weight: bold;
 }
+
+/* ================== RESPONSIVO ============== */
+
+@media (max-width: 1280px) {
+    .containerCheckout {
+        max-width: 700px;
+    }
+}
+
+@media (max-width: 1024px) {
+    .containerCheckout {
+        max-width: 90%;
+    }
+}
+
+@media (max-width: 768px) {
+    .mainCheckout {
+        padding: 30px 16px;
+    }
+
+    .containerCheckout {
+        max-width: 100%;
+        padding: 16px;
+    }
+
+    .tituloCheckout {
+        font-size: 28px;
+        margin-bottom: 24px;
+    }
+
+    .itemCheckout {
+        flex-wrap: wrap;
+    }
+
+    .divQuantidadeCheckout {
+        margin-left: 0;
+        margin-top: 8px;
+        width: 100%;
+    }
+
+    .resumoFinalCheckout p {
+        font-size: 20px;
+    }
+
+    .resumoFinalCheckout span {
+        font-size: 24px;
+    }
+
+    .btnPagar {
+        font-size: 16px;
+        width: 100%;
+    }
+}
+
+@media (max-width: 480px) {
+    .tituloCheckout {
+        font-size: 22px;
+    }
+
+    .imagemCheckout {
+        width: 60px;
+        height: 60px;
+    }
+
+    .nomeCheckout {
+        font-size: 15px;
+    }
+
+    .precoCheckout {
+        font-size: 14px;
+    }
+
+    .resumoFinalCheckout {
+        padding: 14px;
+    }
+
+    .resumoFinalCheckout p {
+        font-size: 18px;
+    }
+
+    .resumoFinalCheckout span {
+        font-size: 20px;
+    }
+
+    .btnPagar {
+        font-size: 15px;
+        padding: 12px;
+    }
+}
+
+@media (max-width: 360px) {
+    .tituloCheckout {
+        font-size: 18px;
+    }
+
+    .imagemCheckout {
+        width: 50px;
+        height: 50px;
+    }
+
+    .nomeCheckout {
+        font-size: 13px;
+    }
+}
