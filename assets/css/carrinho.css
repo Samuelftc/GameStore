@@ -214,18 +214,9 @@
     }
 }
 
-@media (max-width: 768px) {
-    .carrinho {
-        width: 85%;
-        top: 10px;
-        right: 10px;
-        border-radius: 8px;
-    }
-}
-
 @media (max-width: 480px) {
     .carrinho {
-        width: 100%;
+        width: 91%;
         top: 0;
         right: 0;
         border-radius: 0;
