@@ -23,10 +23,10 @@ require_once '../config/config.php';
                 <!-- LOGIN -->
                 <div class="divAuth" id="formLogin">
                     <h1>Login</h1>
-                    <form class="formAuth" id="formLoginJS">
-                        <input type="email" class="inputAuth" id="inputEmailLogin" placeholder="E-mail" required>
+                    <form class="formAuth" id="formLoginJS" action="<?= API_URL ?>/auth/login.php">
+                        <input type="email" class="inputAuth" name="email" id="inputEmailLogin" placeholder="E-mail" required>
                         <div class="inputSenhaWrapper">
-                            <input type="password" class="inputAuth" id="inputSenhaLogin" placeholder="Senha" required>
+                            <input type="password" class="inputAuth" name="senha" id="inputSenhaLogin" placeholder="Senha" required>
                             <i class="fa-regular fa-eye toggleSenha"></i>
                         </div>
                         <a href="">Esqueceu sua senha?</a>
@@ -40,16 +40,16 @@ require_once '../config/config.php';
                 <!-- CADASTRO -->
                 <div class="divAuth" id="formCadastro">
                     <h1>Cadastrar</h1>
-                    <form class="formAuth" id="formCadastroJS">
-                        <input type="text" class="inputAuth" id="inputNomeCadastrar" placeholder="Nome Completo" required>
-                        <input type="email" class="inputAuth" id="inputEmailCadastrar" placeholder="E-mail" required>
+                    <form class="formAuth" id="formCadastroJS" action="<?= API_URL ?>/auth/cadastro.php" method="POST">
+                        <input type="text" class="inputAuth" name="nome" id="inputNomeCadastrar" placeholder="Nome Completo" required>
+                        <input type="email" class="inputAuth" name="email" id="inputEmailCadastrar" placeholder="E-mail" required>
                         <div class="inputSenhaWrapper">
-                            <input type="password" class="inputAuth" id="inputSenhaCadastrar" placeholder="Senha" required>
+                            <input type="password" class="inputAuth" id="inputSenhaCadastrar" name="senha" placeholder="Senha" required>
                             <i class="fa-regular fa-eye toggleSenha"></i>
                         </div>
 
                         <div class="inputSenhaWrapper">
-                            <input type="password" class="inputAuth" id="inputConfirmarSenhaCadastrar" placeholder="Confirmar Senha" required>
+                            <input type="password" class="inputAuth" id="inputConfirmarSenhaCadastrar" name="confirmarSenha" placeholder="Confirmar Senha" required>
                             <i class="fa-regular fa-eye toggleSenha"></i>
                         </div>
                         <div class="divTermos">

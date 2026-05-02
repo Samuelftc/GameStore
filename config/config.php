@@ -14,4 +14,8 @@ define('CSS_URL', ASSETS_URL . '/css');
 define('IMAGES_URL', ASSETS_URL . '/images');
 define('JS_URL', ASSETS_URL . '/js');
 
+// BACKEND
+define('API_URL', BASE_URL . '/API');
+define('MODEL_URL', BASE_URL . '/models');
+
 ?>
