@@ -2,35 +2,27 @@ const btnAbrirMeuPerfil = document.getElementById('nomeUsuario');
 const btnFecharMeuPerfil = document.getElementById('fecharMeuPerfil');
 const containerMeuPerfil = document.getElementById('meuPerfil');
 
-const usuarioLogadoPerfil = JSON.parse(localStorage.getItem('usuarioLogado'));
-const pedidosPerfil = JSON.parse(localStorage.getItem('pedidos')) || [];
-
 const nomeDoUsuario = document.getElementById('nomeDoUsuario');
 const emailDoUsuario = document.getElementById('emailDoUsuario');
 const dataCadastroDoUsuario = document.getElementById('dataCadastroDoUsuario');
 const quantidadeComprasFeitas = document.getElementById('quantidadeComprasFeitas');
 const buttonSairPerfil = document.getElementById('buttonSairPerfil');
 
-// Verificação
-if (!usuarioLogadoPerfil) {
-    // window.location.href = 'index.php';
-} else {
-    const pedidosUsuario = pedidosPerfil.filter(p => p.idUsuario === usuarioLogadoPerfil.id);
-
-    if (nomeDoUsuario) nomeDoUsuario.textContent = usuarioLogadoPerfil.nome;
-    if (emailDoUsuario) emailDoUsuario.textContent = usuarioLogadoPerfil.email;
-    if (dataCadastroDoUsuario) dataCadastroDoUsuario.textContent = usuarioLogadoPerfil.data;
-    if (quantidadeComprasFeitas) quantidadeComprasFeitas.textContent = pedidosUsuario.length;
+// Agora usa usuarioLogado do PHP (head.php) em vez do localStorage
+if (usuarioLogado) {
+    if (nomeDoUsuario) nomeDoUsuario.textContent = usuarioLogado.nome;
+    if (emailDoUsuario) emailDoUsuario.textContent = usuarioLogado.email;
+    if (dataCadastroDoUsuario) dataCadastroDoUsuario.textContent = usuarioLogado.criado_em ?? '-';
+    if (quantidadeComprasFeitas) quantidadeComprasFeitas.textContent = '0';
 
     if (buttonSairPerfil) {
-        buttonSairPerfil.addEventListener('click', () => {
-            localStorage.removeItem('usuarioLogado');
-            window.location.href = 'index.php';
+        buttonSairPerfil.addEventListener('click', async () => {
+            await fetch(`${BASE_URL}/API/auth/logout.php`);
+            localStorage.clear();
+            window.location.href = `${BASE_URL}/public/index.php`;
         });
     }
 }
-
-
 
 if (btnAbrirMeuPerfil && containerMeuPerfil) {
     btnAbrirMeuPerfil.addEventListener('click', () => {

@@ -9,6 +9,10 @@ require_once '../config/config.php';
 <!DOCTYPE html>
 <html lang="pt-BR">
 
+<script>
+    const BASE_URL = "<?= BASE_URL ?>";
+</script>
+
 <?php include INCLUDES_PATH . "/head.php" ?>
 
 <body class="bodyAuth">
@@ -23,7 +27,7 @@ require_once '../config/config.php';
                 <!-- LOGIN -->
                 <div class="divAuth" id="formLogin">
                     <h1>Login</h1>
-                    <form class="formAuth" id="formLoginJS" action="<?= API_URL ?>/auth/login.php">
+                    <form class="formAuth" id="formLoginJS" action="<?= API_URL ?>/auth/login.php" method="POST">
                         <input type="email" class="inputAuth" name="email" id="inputEmailLogin" placeholder="E-mail" required>
                         <div class="inputSenhaWrapper">
                             <input type="password" class="inputAuth" name="senha" id="inputSenhaLogin" placeholder="Senha" required>

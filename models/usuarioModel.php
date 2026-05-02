@@ -20,7 +20,7 @@ class UsuarioModel
 
     public function buscarPorEmail($email)
     {
-        $sql = "SELECT * FROM usuarios WHERE email = ? AND ativo = 1";
+        $sql = "SELECT * FROM usuarios WHERE email = ? AND status = 1";
         $stmt = $this->pdo->prepare($sql);
         $stmt->execute([$email]);
 

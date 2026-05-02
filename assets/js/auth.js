@@ -22,87 +22,47 @@ if (botaoEntrar) {
 }
 // Fim das animações
 
-// Lógica do cadastro
-const usuarios = JSON.parse(localStorage.getItem("cadastros")) || [];
-const submitCadastrar = document.getElementById("submitCadastrar");
+// Fetch API cadastro
+const formCadastro = document.getElementById("formCadastroJS");
 
-function cadastrar() {
-  const nome = document.getElementById("inputNomeCadastrar").value.trim();
-  const email = document
-    .getElementById("inputEmailCadastrar")
-    .value.trim()
-    .toLowerCase();
-  const senha = document.getElementById("inputSenhaCadastrar").value;
-  const confirmarSenha = document.getElementById(
-    "inputConfirmarSenhaCadastrar",
-  ).value;
-  const termos = document.getElementById("termos").checked;
+if (formCadastro) {
+  formCadastro.addEventListener("submit", async function (e) {
+    e.preventDefault();
 
-  if (nome === "" || email === "" || senha === "" || confirmarSenha === "") {
-    chamarToastCadastro(`Por favor, preencha todos os campos!`);
-    return;
-  }
+    const formDataCadastro = new FormData(formCadastro);
 
-  if (!validarEmail(email)) {
-    chamarToastCadastro(`Por favor, insira um e-mail válido!`);
-    return;
-  }
+    try {
+      const response = await fetch(formCadastro.action, {
+        method: "POST",
+        body: formDataCadastro
+      });
 
-  if (!validarSenha(senha)) {
-    chamarToastCadastro(
-      `A senha deve ter no mínimo 8 caracteres, uma letra maiúscula, um número e um caractere especial.`,
-    );
-    return;
-  }
+      let dadosCadastro;
 
-  if (senha !== confirmarSenha) {
-    chamarToastCadastro(`As senhas não coincidem!`);
-    return;
-  }
+      try {
+        dadosCadastro = await response.json();
+      } catch {
+        throw new Error("Resposta Inválida do servidor");
+      }
 
-  if (usuarios.some((usuario) => usuario.email === email)) {
-    chamarToastCadastro(`Este e-mail já está cadastrado!`);
-    return;
-  }
+      if (dadosCadastro.sucesso && response.ok) {
+        chamarToastCadastro(`${dadosCadastro.mensagem}`);
 
-  if (!termos) {
-    chamarToastCadastro(`Por favor, aceite os termos de uso!`);
-    return;
-  }
+        formCadastro.reset();
 
-  const agora = new Date();
-  const novoCadastro = {
-    id: Date.now(),
-    nome: nome,
-    email: email,
-    senha: senha,
-    data: agora.toLocaleDateString("pt-BR"),
-    criadoem: agora.getTime(),
-  };
+        setTimeout(() => {
+          location.reload();
+        }, 1500);
+      } else {
+        chamarToastCadastro(`${dadosCadastro.mensagem || "Ocorreu um erro ao cadastrar. Por favor, tente novamente."}`);
+      }
 
-  usuarios.push(novoCadastro);
-  localStorage.setItem("cadastros", JSON.stringify(usuarios));
-  chamarToastCadastro(`Cadastro realizado com sucesso!`);
-  document.getElementById("formCadastroJS").reset();
+    } catch (error) {
+      chamarToastCadastro("Erro ao enviar o formulário.");
+    }
+  })
 }
 
-function validarSenha(senha) {
-  const regex = /^(?=.*[A-Z])(?=.*\d)(?=.*[^A-Za-z0-9]).{8,}$/;
-  return regex.test(senha);
-}
-
-function validarEmail(email) {
-  const emailRegex = /^[^\s@]+@[^\s@]+\.[^\s@]+$/;
-  return emailRegex.test(email);
-}
-
-if (submitCadastrar) {
-  submitCadastrar.addEventListener("click", (event) => {
-    event.preventDefault();
-    cadastrar();
-    console.log(usuarios);
-  });
-}
 
 function chamarToastCadastro(message) {
   const toast = document.createElement("div");
@@ -117,59 +77,45 @@ function chamarToastCadastro(message) {
 }
 // Fim da lógica de cadastro
 
-// Lógica de login
+// Fetch API login
 const formLogin = document.getElementById("formLoginJS");
 
-function login() {
-  const usuarios = JSON.parse(localStorage.getItem("cadastros")) || [];
-
-  const emailLogin = document
-    .getElementById("inputEmailLogin")
-    .value.trim()
-    .toLowerCase();
-  const senhaLogin = document.getElementById("inputSenhaLogin").value;
-
-  if (emailLogin === "" || senhaLogin === "") {
-    chamarToastCadastro(`Por favor, preencha os dois campos corretamente!`);
-    return;
-  }
-
-  if (!validarEmail(emailLogin)) {
-    chamarToastLogin(`Por favor, insira um e-mail válido!`);
-    return;
-  }
-
-  const usuarioEncontrado = usuarios.find(
-    (usuario) => usuario.email === emailLogin,
-  );
-
-  if (!usuarioEncontrado) {
-    chamarToastLogin("Usuário não encontrado!");
-    return;
-  }
-
-  if (usuarioEncontrado.senha !== senhaLogin) {
-    chamarToastLogin("Senha incorreta!");
-    return;
-  }
-
-  const usuarioLogado = {
-    id: usuarioEncontrado.id,
-    nome: usuarioEncontrado.nome,
-    email: usuarioEncontrado.email,
-    data: usuarioEncontrado.data,
-  };
-
-  localStorage.setItem("usuarioLogado", JSON.stringify(usuarioLogado));
-  chamarToastLogin("Login realizado com sucesso!");
-
-  window.location.href = "index.php";
-}
-
 if (formLogin) {
-  formLogin.addEventListener("submit", (e) => {
+  formLogin.addEventListener("submit", async function (e) {
     e.preventDefault();
-    login();
+
+    const formDataLogin = new FormData(formLogin);
+
+    try {
+      const response = await fetch(formLogin.action, {
+        method: "POST",
+        body: formDataLogin
+      });
+
+      let dadosLogin;
+
+      try {
+        dadosLogin = await response.json();
+      } catch {
+        throw new Error("Resposta inválida do servidor");
+      }
+
+      if (dadosLogin.sucesso && response.ok) {
+        chamarToastLogin(`${dadosLogin.mensagem}`);
+
+        formLogin.reset();
+
+        setTimeout(() => {
+          window.location.href = `${BASE_URL}/public/index.php`
+        }, 1500);
+      } else {
+        chamarToastLogin(`${dadosLogin.mensagem || "Ocorreu um erro ao cadastrar. Por favor, tente novamente."}`);
+      }
+
+    } catch (error) {
+      chamarToastLogin("Erro ao enviar o formulário.");
+    }
+
   });
 }
 
@@ -186,26 +132,26 @@ function chamarToastLogin(message) {
 }
 
 document.querySelectorAll('.toggleSenha').forEach(icone => {
-    icone.addEventListener('click', () => {
-        const input = icone.previousElementSibling;
-        const visivel = input.type === 'text';
-        input.type = visivel ? 'password' : 'text';
-        icone.classList.toggle('fa-eye', visivel);
-        icone.classList.toggle('fa-eye-slash', !visivel);
-    });
+  icone.addEventListener('click', () => {
+    const input = icone.previousElementSibling;
+    const visivel = input.type === 'text';
+    input.type = visivel ? 'password' : 'text';
+    icone.classList.toggle('fa-eye', visivel);
+    icone.classList.toggle('fa-eye-slash', !visivel);
+  });
 });
 
 const irParaCadastro = document.getElementById('irParaCadastro');
 const irParaLogin = document.getElementById('irParaLogin');
 
 if (irParaCadastro) {
-    irParaCadastro.addEventListener('click', () => {
-        container.classList.add('cadastroAtivo');
-    });
+  irParaCadastro.addEventListener('click', () => {
+    container.classList.add('cadastroAtivo');
+  });
 }
 
 if (irParaLogin) {
-    irParaLogin.addEventListener('click', () => {
-        container.classList.remove('cadastroAtivo');
-    });
+  irParaLogin.addEventListener('click', () => {
+    container.classList.remove('cadastroAtivo');
+  });
 }

@@ -9,8 +9,6 @@ if (botaoLogin) {
 const btnSair = document.getElementById("btnSair");
 
 function verificarSeEstaLogado() {
-  const usuarioLogado = JSON.parse(localStorage.getItem("usuarioLogado"));
-
   const botaoLogin = document.getElementById("botaoLogin");
   const liNomeUsuario = document.getElementById("liNomeUsuario");
 

@@ -1,5 +1,9 @@
 <?php 
 
+if (session_status() === PHP_SESSION_NONE) {
+    session_start();
+}
+
 define('ROOT_PATH', dirname(__DIR__));
 
 define('INCLUDES_PATH', ROOT_PATH . '/includes');
@@ -14,8 +18,11 @@ define('CSS_URL', ASSETS_URL . '/css');
 define('IMAGES_URL', ASSETS_URL . '/images');
 define('JS_URL', ASSETS_URL . '/js');
 
-// BACKEND
+// BACKEND - URL
 define('API_URL', BASE_URL . '/API');
 define('MODEL_URL', BASE_URL . '/models');
+
+// BACKEND — caminhos de arquivo para require_once
+define('MODEL_PATH', ROOT_PATH . '/models');
 
 ?>

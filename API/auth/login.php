@@ -2,8 +2,8 @@
 
 header("Content-Type: application/json");
 
-require_once __DIR__ . '/../config/config.php';
-require_once MODEL_URL . '/usuarioModel.php';
+require_once __DIR__ . '/../../config/config.php';
+require_once MODEL_PATH . '/usuarioModel.php';
 
 $usuarioModel = new UsuarioModel();
 
@@ -37,14 +37,13 @@ if (!filter_var($email, FILTER_VALIDATE_EMAIL)) {
         'sucesso' => false,
         'mensagem' => "Por favor, insira um e-mail válido!"
     ]);
+    exit;
 }
 
 try {
     $usuario = $usuarioModel->buscarPorEmail($email);
 
-    $hash1 = md5($senha . "20sdabjkasdbaksdhajs6" . $email . "fbasl1524125462");
-
-    if (!$usuario || !password_verify($hash1, $usuario['senha'])) {
+    if (!$usuario || !password_verify($senha, $usuario['senha'])) {
         http_response_code(401);
 
         echo json_encode([
@@ -63,7 +62,7 @@ try {
     exit;
 }
 
-if ($usuario['ativo'] == 0) {
+if ($usuario['status'] == 0) {
     http_response_code(403);
 
     echo json_encode([
@@ -73,13 +72,16 @@ if ($usuario['ativo'] == 0) {
     exit;
 }
 
-session_start();
+if (session_status() === PHP_SESSION_NONE) {
+    session_start();
+}
 session_regenerate_id(true);
 
 $_SESSION['usuario'] = [
     'id' => $usuario['id'],
     'nome' => $usuario['nome'],
-    'email' => $usuario['email']
+    'email' => $usuario['email'],
+    'criado_em' => date('d/m/Y', strtotime($usuario['criado_em']))
 ];
 
 echo json_encode([
@@ -88,6 +90,7 @@ echo json_encode([
     'usuario' => [
         'id' => $usuario['id'],
         'nome' => $usuario['nome'],
-        'email' => $usuario['email']
+        'email' => $usuario['email'],
+        'criado_em' => date('d/m/Y', strtotime($usuario['criado_em']))
     ]
 ]);
