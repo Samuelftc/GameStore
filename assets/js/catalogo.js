@@ -2,13 +2,33 @@ let listaDeJogos = document.getElementById('listaDeJogos');
 
 if (listaDeJogos) {
 
+    let Jogos = [];
+
+    try {
+        const response = await fetch(`${BASE_URL}/API/produtos/jogos.php`);
+
+        if (!response.ok) {
+            throw new Error('Erro ao buscar jogos');
+        }
+
+        const data = await response.json();
+
+        Jogos = data.jogos;
+
+        renderizarJogos(Jogos);
+        
+    } catch (error) {
+        listaDeJogos.innerHTML = '<p>Erro ao carregar jogos. Por favor, tente novamente mais tarde.</p>';
+    }
+
+
     function renderizarJogos(jogos) {
         listaDeJogos.innerHTML = '';
 
         jogos.forEach((jogo) => {
             const li = document.createElement('li');
             li.addEventListener('click', () => {
-                window.location.href = `produto.php?tipo=jogo&id=${jogo.id}`;
+                window.location.href = `produto.php?id=${jogo.id}`;
             });
 
             const article = document.createElement('article');
@@ -16,24 +36,27 @@ if (listaDeJogos) {
 
             const div = document.createElement('div');
             const foto = document.createElement('img');
-            foto.src = jogo.foto;
-            foto.alt = jogo.altFoto;
+            foto.src = `${BASE_URL}/assets/images/${jogo.foto}`;
+            foto.alt = jogo.alt_foto;
             div.append(foto);
 
             const nome = document.createElement('h4');
             nome.textContent = jogo.nome;
 
             const preco = document.createElement('p');
-            preco.textContent = "R$" + jogo.preco.toFixed(2);
+            preco.textContent = Number(jogo.preco).toLocaleString(
+                'pt-BR',
+                {
+                    style: 'currency',
+                    currency: 'BRL'
+                }
+            );
 
             article.append(div, nome, preco);
             li.append(article);
             listaDeJogos.append(li);
         });
     }
-
-    // Renderiza todos os jogos no início
-    renderizarJogos(Jogos);
 
     // FILTROS
     const checkboxes = document.querySelectorAll('.checkboxFiltro input');
@@ -42,6 +65,8 @@ if (listaDeJogos) {
     });
 
     function aplicarFiltros() {
+        if (Jogos.length === 0) return;
+
         const acaoChecked = document.getElementById('filtroAcao').checked;
         const RPGChecked = document.getElementById('filtroRPG').checked;
         const FPSChecked = document.getElementById('filtroFPS').checked;

@@ -1,27 +1,23 @@
-function carregarProduto() {
-    const params = new URLSearchParams(window.location.search);
+const container = document.getElementById('produtoContainer');
 
-    const tipo = params.get('tipo'); // "jogo" ou "hardware"
-    const id = Number(params.get('id'));
+async function buscarProduto(id) {
+    try {
+        const response = await fetch(`${BASE_URL}/API/produtos/produto.php?id=${id}`);
 
-    const container = document.getElementById('produtoContainer');
+        if (!response.ok) {
+            throw new Error('Erro ao buscar produto');
+        }
 
-    if (!tipo || isNaN(id)) {
-        container.innerHTML = '<p>Produto inválido.</p>';
-        return;
+        const data = await response.json();
+
+        return data.produto;
+    } catch (error) {
+        console.error(error);
+        return null;
     }
+}
 
-    let produto = null;
-
-    // Decide de onde buscar
-    if (tipo === 'hardware') {
-        produto = Hardware.find(item => item.id === id);
-    }
-
-    if (tipo === 'jogo') {
-        produto = Jogos.find(item => item.id === id);
-    }
-
+function renderizarProduto(produto) {
     if (!produto) {
         container.innerHTML = '<p>Produto não encontrado.</p>';
         return;
@@ -29,44 +25,90 @@ function carregarProduto() {
 
     container.innerHTML = `
         <section class="informacoesProduto">
-            <img src="${produto.foto}" alt="${produto.altFoto}" class="imagem_pagina">
+            <img 
+                src="${BASE_URL}/assets/images/${produto.foto}" 
+                alt="${produto.alt_foto}" 
+                class="imagem_pagina"
+            >
 
             <div class="info">
                 <h1>${produto.nome}</h1>
+
                 <p>${produto.descricao}</p>
+
                 <p class="preco">
-                    <strong>Preço:</strong> R$ ${produto.preco.toFixed(2)}
+                    <strong>Preço:</strong> 
+                    ${Number(produto.preco).toLocaleString(
+        'pt-BR',
+        {
+            style: 'currency',
+            currency: 'BRL'
+        }
+    )}
                 </p>
 
-                ${tipo === 'hardware'
-            ? `<p><strong>Tipo:</strong> ${produto.tipos.join(', ')}</p>
-                           <p><strong>Plataforma:</strong> ${produto.plataformas.join(', ')}</p>`
-            : `<p><strong>Categorias:</strong> ${produto.categorias.join(', ')}</p>
-                           <p><strong>Plataformas:</strong> ${produto.Plataformas.join(', ')}</p>`
-        }
-
-                <button id="btnCarrinho">Adicionar ao Carrinho</button>
+                <button id="btnCarrinho">
+                    Adicionar ao Carrinho
+                </button>
             </div>
         </section>
     `;
+
+    configurarCarrinho(produto);
+}
+
+function configurarCarrinho(produto) {
     const comprar = document.getElementById('btnCarrinho');
+
+    if (!comprar) return;
 
     comprar.addEventListener('click', () => {
 
-        const existingItem = itensNoCarrinho.find(item => item.id === produto.id && item.tipo === produto.tipo && item.nome === produto.nome);
+        const existingItem = itensNoCarrinho.find(item =>
+            item.id === produto.id
+        );
 
         if (existingItem) {
+
             existingItem.quantidade += 1;
-            chamarToasts(`Quantidade de ${produto.nome} aumentada!`);
+
+            chamarToasts(
+                `Quantidade de ${produto.nome} aumentada!`
+            );
+
         } else {
-            itensNoCarrinho.push({ ...produto, quantidade: 1 });
-            chamarToasts(`${produto.nome} adicionado ao carrinho!`);
+
+            itensNoCarrinho.push({
+                ...produto,
+                quantidade: 1
+            });
+
+            chamarToasts(
+                `${produto.nome} adicionado ao carrinho!`
+            );
         }
 
         salvarCarrinho();
-
         atualizarCarrinho();
     });
+}
+
+async function carregarProduto() {
+
+    if (!container) return;
+
+    const params = new URLSearchParams(window.location.search);
+
+    const id = Number(params.get('id'));
+
+    if (isNaN(id)) {
+        container.innerHTML = '<p>Produto inválido.</p>';
+        return;
+    }
+
+    const produto = await buscarProduto(id);
+
+    renderizarProduto(produto);
 }
 
 carregarProduto();

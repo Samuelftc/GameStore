@@ -23,7 +23,7 @@ require_once '../config/config.php';
 
     <?php include INCLUDES_PATH . '/footer.php'; ?>
 
-    <script src="<?= JS_URL ?>/produto.js" defer></script>
+    <script type="module" src="<?= JS_URL ?>/produto.js" defer></script>
 </body>
 
 </html>

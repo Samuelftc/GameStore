@@ -93,7 +93,7 @@ require_once '../config/config.php';
 
     <?php include INCLUDES_PATH . '/footer.php'; ?>
 
-    <script src="<?= JS_URL ?>/catalogo.js" defer></script>
+    <script type="module" src="<?= JS_URL ?>/catalogo.js" defer></script>
 </body>
 
 </html>
