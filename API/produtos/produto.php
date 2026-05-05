@@ -1,16 +1,19 @@
 <?php
 
+header('Content-Type: application/json');
 require_once __DIR__ . '/../../config/config.php';
 require_once MODEL_PATH . '/produtosModel.php';
+
+$produtosModel = new ProdutosModel();
 
 $method = $_SERVER['REQUEST_METHOD'];
 
 match ($method) {
-    'GET' => ObterProduto(),
+    'GET' => obterProduto(),
     default => metodoNaoPermitido()
 };
 
-function ObterProduto()
+function obterProduto()
 {
     global $produtosModel;
 
@@ -36,7 +39,6 @@ function ObterProduto()
         exit;
     }
 
-    header('Content-Type: application/json');
     echo json_encode([
         'sucesso' => true,
         'produto' => $produto

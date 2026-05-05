@@ -65,6 +65,16 @@ if (!preg_match($regex, $senha)) {
     exit;
 }
 
+if ($termos !== 'on') {
+    http_response_code(400);
+
+    echo json_encode([
+        'sucesso' => false,
+        'mensagem' => "Você deve concordar com os termos de uso!"
+    ]);
+    exit;
+}
+
 $emailExiste = $usuarioModel->emailExiste($email);
 
 if ($emailExiste) {
@@ -73,16 +83,6 @@ if ($emailExiste) {
     echo json_encode([
         'sucesso' => false,
         'mensagem' => "O e-mail informado já está em uso!"
-    ]);
-    exit;
-}
-
-if ($termos !== 'on') {
-    http_response_code(400);
-
-    echo json_encode([
-        'sucesso' => false,
-        'mensagem' => "Você deve concordar com os termos de uso!"
     ]);
     exit;
 }

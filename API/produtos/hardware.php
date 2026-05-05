@@ -9,19 +9,19 @@ $produtosModel = new ProdutosModel();
 $method = $_SERVER['REQUEST_METHOD'];
 
 match ($method) {
-    'GET' => listarJogos(),
+    'GET' => listarHardware(),
     default => metodoNaoPermitido()
 };
 
-function listarJogos()
+function listarHardware()
 {
     global $produtosModel;
-        
-    $jogos = $produtosModel->listarPorTipo('jogo');
+
+    $hardware = $produtosModel->listarPorTipo('hardware');
 
     echo json_encode([
         'sucesso' => true,
-        'jogos' => $jogos
+        'hardware' => $hardware
     ]);
     exit;
 }

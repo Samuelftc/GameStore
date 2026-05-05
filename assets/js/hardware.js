@@ -1,111 +1,110 @@
 const listaDeHardware = document.getElementById('listaDeHardware');
 
 if (listaDeHardware) {
-    Hardware.forEach((produto) => {
-        const liHardware = document.createElement('li');
 
-        const articleHardware = document.createElement('article');
-        articleHardware.className = "cardJogo";
-        articleHardware.addEventListener('click', () => {
-            window.location.href = `produto.php?tipo=hardware&id=${produto.id}`;
+    let hardware = [];
+
+    // =========================
+    // FETCH
+    // =========================
+    async function carregarHardware() {
+        try {
+            const response = await fetch(`${BASE_URL}/API/produtos/hardware.php`);
+
+            if (!response.ok) {
+                throw new Error('Erro ao buscar hardware');
+            }
+
+            const data = await response.json();
+
+            hardware = data.hardware;
+
+            renderizarHardware(hardware);
+
+        } catch (error) {
+            listaDeHardware.innerHTML = '<p>Erro ao carregar produtos. Tente novamente.</p>';
+            console.error(error);
+        }
+    }
+
+    // =========================
+    // RENDER
+    // =========================
+    function renderizarHardware(produtos) {
+        listaDeHardware.innerHTML = '';
+
+        produtos.forEach(produto => {
+            const li = document.createElement('li');
+
+            const article = document.createElement('article');
+            article.className = "cardJogo";
+
+            article.addEventListener('click', () => {
+                window.location.href = `produto.php?id=${produto.id}`;
+            });
+
+            const div = document.createElement('div');
+
+            const img = document.createElement('img');
+            img.src = `${BASE_URL}/assets/images/${produto.foto}`;
+            img.alt = produto.alt_foto;
+
+            div.append(img);
+
+            const nome = document.createElement('h4');
+            nome.textContent = produto.nome;
+
+            const preco = document.createElement('p');
+            preco.textContent = Number(produto.preco).toLocaleString('pt-BR', {
+                style: 'currency',
+                currency: 'BRL'
+            });
+
+            article.append(div, nome, preco);
+            li.append(article);
+            listaDeHardware.append(li);
         });
+    }
 
-        const divHardware = document.createElement('div');
+    // =========================
+    // FILTROS
+    // =========================
+    const checkboxes = document.querySelectorAll('.checkboxFiltro input');
 
-        const fotoHardware = document.createElement('img');
-        fotoHardware.src = produto.foto;
-        fotoHardware.alt = produto.altFoto;
-        divHardware.append(fotoHardware);
-
-        const nomeHardware = document.createElement('h4');
-        nomeHardware.textContent = produto.nome
-
-        const precoHardware = document.createElement('p');
-        precoHardware.textContent = "R$" + produto.preco.toFixed(2);
-
-        articleHardware.append(divHardware, nomeHardware, precoHardware);
-        liHardware.append(articleHardware);
-        listaDeHardware.append(liHardware);
+    checkboxes.forEach(cb => {
+        cb.addEventListener('change', aplicarFiltros);
     });
 
-    const checkboxesHardware = document.querySelectorAll('.checkboxFiltro input');
-
-    checkboxesHardware.forEach(checkbox => {
-        checkbox.addEventListener('change', AplicarFiltrosHardware);
-    });
-
-
-    function AplicarFiltrosHardware() {
-        const consoleChecked = document.getElementById('filtroConsole').checked;
-        const pcCompletoChecked = document.getElementById('filtroPcCompleto').checked;
-        const controlesChecked = document.getElementById('filtroControles').checked;
-        const perifericosChecked = document.getElementById('filtroPerifericos').checked;
-        const componentesChecked = document.getElementById('filtroComponentes').checked;
-
-        const PCChecked = document.getElementById('filtroPC').checked;
-        const playStationChecked = document.getElementById('filtroPlayStation').checked;
-        const xboxChecked = document.getElementById('filtroXbox').checked;
-
+    function aplicarFiltros() {
+        if (hardware.length === 0) return;
 
         const tiposSelecionados = [];
-        if (consoleChecked) tiposSelecionados.push('Console');
-        if (pcCompletoChecked) tiposSelecionados.push('PC Completo');
-        if (controlesChecked) tiposSelecionados.push('Controles');
-        if (perifericosChecked) tiposSelecionados.push('Perifericos');
-        if (componentesChecked) tiposSelecionados.push('Componentes');
+        if (document.getElementById('filtroConsole').checked) tiposSelecionados.push('Console');
+        if (document.getElementById('filtroPcCompleto').checked) tiposSelecionados.push('PC Completo');
+        if (document.getElementById('filtroControles').checked) tiposSelecionados.push('Controles');
+        if (document.getElementById('filtroPerifericos').checked) tiposSelecionados.push('Perifericos');
+        if (document.getElementById('filtroComponentes').checked) tiposSelecionados.push('Componentes');
 
         const plataformasSelecionadas = [];
-        if (PCChecked) plataformasSelecionadas.push('PC');
-        if (playStationChecked) plataformasSelecionadas.push('PlayStation');
-        if (xboxChecked) plataformasSelecionadas.push('Xbox');
+        if (document.getElementById('filtroPC').checked) plataformasSelecionadas.push('PC');
+        if (document.getElementById('filtroPlayStation').checked) plataformasSelecionadas.push('PlayStation');
+        if (document.getElementById('filtroXbox').checked) plataformasSelecionadas.push('Xbox');
 
-        let filtrados = Hardware.filter(produto => {
-            const passaTipos =
+        const filtrados = hardware.filter(produto => {
+            const passaTipo =
                 tiposSelecionados.length === 0 ||
-                produto.tipos.some(prod => tiposSelecionados.includes(prod));
+                produto.categorias.some(t => tiposSelecionados.includes(t));
 
             const passaPlataforma =
                 plataformasSelecionadas.length === 0 ||
-                produto.plataformas.some(plat => plataformasSelecionadas.includes(plat));
+                produto.plataformas.some(p => plataformasSelecionadas.includes(p));
 
-            return passaTipos && passaPlataforma;
+            return passaTipo && passaPlataforma;
         });
 
-        atualizarLista(filtrados);
+        renderizarHardware(filtrados);
     }
 
-    function atualizarLista(produtosFiltrados) {
-        listaDeHardware.innerHTML = ''; // limpa a lista
-
-        produtosFiltrados.forEach((produto) => {
-            const liHardware = document.createElement('li');
-
-            const articleHardware = document.createElement('article');
-            articleHardware.className = "cardJogo";
-            articleHardware.addEventListener('click', () => {
-                window.location.href = `produto.php?tipo=hardware&id=${produto.id}`;
-            });
-
-            const divHardware = document.createElement('div');
-
-            const fotoHardware = document.createElement('img');
-            fotoHardware.src = produto.foto;
-            fotoHardware.alt = produto.altFoto;
-            divHardware.append(fotoHardware);
-
-            const nomeHardware = document.createElement('h4');
-            nomeHardware.textContent = produto.nome
-
-            const precoHardware = document.createElement('p');
-            precoHardware.textContent = "R$" + produto.preco.toFixed(2);
-
-            const comprarHardware = document.createElement('button');
-            comprarHardware.type = "button";
-            comprarHardware.textContent = "Adicionar ao Carrinho";
-
-            articleHardware.append(divHardware, nomeHardware, precoHardware, comprarHardware);
-            liHardware.append(articleHardware);
-            listaDeHardware.append(liHardware);
-        });
-    }
+    // INIT
+    carregarHardware();
 }

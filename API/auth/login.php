@@ -94,3 +94,4 @@ echo json_encode([
         'criado_em' => date('d/m/Y', strtotime($usuario['criado_em']))
     ]
 ]);
+exit;

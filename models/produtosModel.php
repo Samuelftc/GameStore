@@ -19,18 +19,70 @@ class ProdutosModel
 
     public function listarPorTipo($tipo)
     {
-        $sql = "SELECT * FROM produtos WHERE tipo = ? AND status = 1";
+        $sql = "
+        SELECT 
+            p.*,
+            GROUP_CONCAT(DISTINCT c.nome) AS categorias,
+            GROUP_CONCAT(DISTINCT pl.nome) AS plataformas
+        FROM produtos p
+        LEFT JOIN produtos_categorias pc ON pc.produto_id = p.id
+        LEFT JOIN categorias c ON c.id = pc.categoria_id
+        LEFT JOIN produtos_plataformas pp ON pp.produto_id = p.id
+        LEFT JOIN plataformas pl ON pl.id = pp.plataforma_id
+        WHERE p.tipo = ? AND p.status = 1
+        GROUP BY p.id
+    ";
+
         $stmt = $this->pdo->prepare($sql);
         $stmt->execute([$tipo]);
-        return $stmt->fetchAll();
+
+        $produtos = $stmt->fetchAll(PDO::FETCH_ASSOC);
+
+        foreach ($produtos as &$produto) {
+            $produto['categorias'] = $produto['categorias']
+                ? explode(',', $produto['categorias'])
+                : [];
+
+            $produto['plataformas'] = $produto['plataformas']
+                ? explode(',', $produto['plataformas'])
+                : [];
+        }
+
+        return $produtos;
     }
 
     public function obterProdutoPorId($id)
     {
-        $sql = "SELECT * FROM produtos WHERE id = ? AND status = 1";
+        $sql = "
+        SELECT 
+            p.*,
+            GROUP_CONCAT(DISTINCT c.nome) AS categorias,
+            GROUP_CONCAT(DISTINCT pl.nome) AS plataformas
+        FROM produtos p
+        LEFT JOIN produtos_categorias pc ON pc.produto_id = p.id
+        LEFT JOIN categorias c ON c.id = pc.categoria_id
+        LEFT JOIN produtos_plataformas pp ON pp.produto_id = p.id
+        LEFT JOIN plataformas pl ON pl.id = pp.plataforma_id
+        WHERE p.id = ? AND p.status = 1
+        GROUP BY p.id
+    ";
+
         $stmt = $this->pdo->prepare($sql);
         $stmt->execute([$id]);
-        return $stmt->fetch();
+
+        $produto = $stmt->fetch(PDO::FETCH_ASSOC);
+
+        if ($produto) {
+            $produto['categorias'] = $produto['categorias']
+                ? explode(',', $produto['categorias'])
+                : [];
+
+            $produto['plataformas'] = $produto['plataformas']
+                ? explode(',', $produto['plataformas'])
+                : [];
+        }
+
+        return $produto;
     }
 
     public function inserirProduto($dados)
@@ -55,5 +107,3 @@ class ProdutosModel
         $stmt->execute([$id]);
     }
 }
-
-$produtosModel = new ProdutosModel();
