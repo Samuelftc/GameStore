@@ -10,11 +10,30 @@ class CarrinhoModel
         $this->pdo = require_once __DIR__ . '/../config/conexao.php';
     }
 
-    public function adicionarAoCarrinho($dados)
+    public function adicionarAoCarrinho($usuario_id, $produto_id, $quantidade)
     {
-        $sql = "INSERT INTO carrinho (usuario_id, produto_id) VALUES (?, ?)";
+        $sql = "SELECT id, quantidade FROM carrinho 
+            WHERE usuario_id = ? AND produto_id = ?";
+
         $stmt = $this->pdo->prepare($sql);
-        $stmt->execute([$dados['usuario_id'], $dados['produto_id']]);
+        $stmt->execute([$usuario_id, $produto_id]);
+
+        $item = $stmt->fetch();
+
+        if ($item) {
+            $sql = "UPDATE carrinho 
+                SET quantidade = quantidade + ? 
+                WHERE id = ?";
+
+            $stmt = $this->pdo->prepare($sql);
+            $stmt->execute([$quantidade, $item['id']]);
+        } else {
+            $sql = "INSERT INTO carrinho (usuario_id, produto_id, quantidade) 
+                VALUES (?, ?, ?)";
+
+            $stmt = $this->pdo->prepare($sql);
+            $stmt->execute([$usuario_id, $produto_id, $quantidade]);
+        }
     }
 
     public function obterCarrinhoPorUsuario($usuario_id)
