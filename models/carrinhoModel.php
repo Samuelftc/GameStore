@@ -38,7 +38,7 @@ class CarrinhoModel
 
     public function obterCarrinhoPorUsuario($usuario_id)
     {
-        $sql = "SELECT c.*, p.nome AS produto_nome, p.preco AS produto_preco FROM carrinho c JOIN produtos p ON c.produto_id = p.id WHERE c.usuario_id = ?";
+        $sql = "SELECT c.*, p.nome AS produto_nome, p.preco AS produto_preco, p.foto, p.alt_foto FROM carrinho c JOIN produtos p ON c.produto_id = p.id WHERE c.usuario_id = ?";
         $stmt = $this->pdo->prepare($sql);
         $stmt->execute([$usuario_id]);
 

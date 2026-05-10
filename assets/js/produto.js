@@ -62,35 +62,60 @@ function configurarCarrinho(produto) {
 
     if (!comprar) return;
 
-    comprar.addEventListener('click', () => {
+    comprar.addEventListener('click', async () => {
 
-        const existingItem = itensNoCarrinho.find(item =>
-            item.id === produto.id
+        comprar.disabled = true;
+        await adicionarNoCarrinho(produto.id);
+        comprar.disabled = false;
+
+    });
+}
+
+async function adicionarNoCarrinho(produtoId) {
+
+    try {
+
+        const response = await fetch(
+            `${BASE_URL}/API/carrinho/adicionar.php`,
+            {
+                method: 'POST',
+
+                headers: {
+                    'Content-Type': 'application/json'
+                },
+
+                body: JSON.stringify({
+                    produto_id: produtoId,
+                    quantidade: 1
+                })
+            }
         );
 
-        if (existingItem) {
+        let data;
 
-            existingItem.quantidade += 1;
-
-            chamarToasts(
-                `Quantidade de ${produto.nome} aumentada!`
-            );
-
-        } else {
-
-            itensNoCarrinho.push({
-                ...produto,
-                quantidade: 1
-            });
-
-            chamarToasts(
-                `${produto.nome} adicionado ao carrinho!`
-            );
+        try {
+            data = await response.json();
+        } catch {
+            throw new Error('Resposta inválida da API');
         }
 
-        salvarCarrinho();
-        atualizarCarrinho();
-    });
+        if (response.status === 401) {
+            chamarToasts('Faça login para adicionar ao carrinho');
+            return;
+        }
+
+        if (!response.ok) {
+            throw new Error(data.mensagem);
+        }
+
+        chamarToasts(data.mensagem);
+
+    } catch (error) {
+
+        console.error(error);
+
+        chamarToasts('Erro ao adicionar ao carrinho');
+    }
 }
 
 async function carregarProduto() {

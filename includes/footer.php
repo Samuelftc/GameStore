@@ -82,4 +82,3 @@ require_once '../config/config.php';
 <script src="<?= JS_URL ?>/meuPerfil.js" defer></script>
 <script src="<?= JS_URL ?>/animacoes.js" defer></script>
 <script src="<?= JS_URL ?>/campoDeBusca.js" defer></script>
-<script src="<?= JS_URL ?>/produtos.js" defer></script>
