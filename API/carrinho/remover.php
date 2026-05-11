@@ -27,13 +27,13 @@ $carrinhoModel = new CarrinhoModel();
 $produtoModel = new ProdutosModel();
 
 match ($method) {
-    'POST' => adicionarNoCarrinho(),
-    default => metodoNaoPermitido()
+    'DELETE'    => removerItem(),
+    default  => metodoNaoPermitido()
 };
 
-function adicionarNoCarrinho()
+function removerItem()
 {
-    global $usuario_id, $carrinhoModel, $produtoModel;
+    global $carrinhoModel, $usuario_id, $produtoModel;
 
     $input = json_decode(file_get_contents('php://input'), true);
 
@@ -50,43 +50,56 @@ function adicionarNoCarrinho()
 
     if (!isset($input['produto_id'])) {
         http_response_code(400);
+
         echo json_encode([
             'sucesso' => false,
-            'mensagem' => 'Produto inválido'
+            'mensagem' => 'Dados inválidos'
         ]);
+
         exit;
     }
 
     $produto_id = $input['produto_id'];
-    $quantidade = $input['quantidade'] ?? 1;
 
-    // vindo da Model de produtos, para pegar o nome do produto
     $produto = $produtoModel->obterProdutoPorId($produto_id);
 
+    if (!$produto) {
+        http_response_code(404);
+
+        echo json_encode([
+            'sucesso' => false,
+            'mensagem' => 'Produto não encontrado'
+        ]);
+
+        exit;
+    }
+
+    $itemCarrinho = $carrinhoModel->obterItemCarrinho($usuario_id, $produto_id);
+
+    if (!$itemCarrinho) {
+        http_response_code(404);
+
+        echo json_encode([
+            'sucesso' => false,
+            'mensagem' => 'Item não encontrado no carrinho'
+        ]);
+
+        exit;
+    }
+
     try {
-        $carrinhoModel->adicionarAoCarrinho($usuario_id, $produto_id, $quantidade);
+        $carrinhoModel->removerDoCarrinho($itemCarrinho['id']);
 
         echo json_encode([
             'sucesso' => true,
-            'mensagem' => "{$produto['nome']} adicionado ao carrinho"
+            'mensagem' => "{$produto['nome']} removido do carrinho"
         ]);
     } catch (Exception $e) {
         http_response_code(500);
         echo json_encode([
             'sucesso' => false,
-            'mensagem' => 'Erro ao adicionar ao carrinho'
+            'mensagem' => 'Erro ao excluir item'
         ]);
     }
-
-    exit;
-}
-
-function metodoNaoPermitido()
-{
-    http_response_code(405);
-    echo json_encode([
-        'sucesso' => false,
-        'mensagem' => 'Método não permitido'
-    ]);
     exit;
 }

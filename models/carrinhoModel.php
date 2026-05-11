@@ -45,20 +45,22 @@ class CarrinhoModel
         return $stmt->fetchAll();
     }
 
+    public function obterItemCarrinho($usuario_id, $produto_id)
+    {
+        $sql = "SELECT * FROM carrinho 
+            WHERE usuario_id = ? AND produto_id = ?";
+
+        $stmt = $this->pdo->prepare($sql);
+        $stmt->execute([$usuario_id, $produto_id]);
+
+        return $stmt->fetch();
+    }
+
     public function atualizarQuantidade($carrinho_id, $quantidade)
     {
         $sql = "UPDATE carrinho SET quantidade = ? WHERE id = ?";
         $stmt = $this->pdo->prepare($sql);
         $stmt->execute([$quantidade, $carrinho_id]);
-    }
-
-    public function verificarItemNoCarrinho($usuario_id, $produto_id)
-    {
-        $sql = "SELECT * FROM carrinho WHERE usuario_id = ? AND produto_id = ?";
-        $stmt = $this->pdo->prepare($sql);
-        $stmt->execute([$usuario_id, $produto_id]);
-
-        return $stmt->fetch();
     }
 
     public function removerDoCarrinho($carrinho_id)
