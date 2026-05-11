@@ -24,29 +24,43 @@ if (botaoEntrar) {
 
 // Fetch API cadastro
 const formCadastro = document.getElementById("formCadastroJS");
+const inputNomeCadastrar = document.getElementById("inputNomeCadastrar");
+const inputEmailCadastrar = document.getElementById("inputEmailCadastrar");
+const inputSenhaCadastrar = document.getElementById("inputSenhaCadastrar");
+const inputConfirmarSenhaCadastrar = document.getElementById("inputConfirmarSenhaCadastrar");
+const inputTermos = document.getElementById("termos");
 
 if (formCadastro) {
   formCadastro.addEventListener("submit", async function (e) {
     e.preventDefault();
 
-    const formDataCadastro = new FormData(formCadastro);
+    const dadosCadastro = {
+      nome: inputNomeCadastrar.value,
+      email: inputEmailCadastrar.value,
+      senha: inputSenhaCadastrar.value,
+      confirmarSenha: inputConfirmarSenhaCadastrar.value,
+      termos: inputTermos.value
+    }
 
     try {
       const response = await fetch(formCadastro.action, {
         method: "POST",
-        body: formDataCadastro
+        headers: {
+          "Content-Type": "application/json"
+        },
+        body: JSON.stringify(dadosCadastro)
       });
 
-      let dadosCadastro;
+      let resposta;
 
       try {
-        dadosCadastro = await response.json();
+        resposta = await response.json();
       } catch {
         throw new Error("Resposta Inválida do servidor");
       }
 
-      if (dadosCadastro.sucesso && response.ok) {
-        chamarToastCadastro(`${dadosCadastro.mensagem}`);
+      if (resposta.sucesso && response.ok) {
+        chamarToastCadastro(`${resposta.mensagem}`);
 
         formCadastro.reset();
 
@@ -54,7 +68,7 @@ if (formCadastro) {
           location.reload();
         }, 1500);
       } else {
-        chamarToastCadastro(`${dadosCadastro.mensagem || "Ocorreu um erro ao cadastrar. Por favor, tente novamente."}`);
+        chamarToastCadastro(`${resposta.mensagem || "Ocorreu um erro ao cadastrar. Por favor, tente novamente."}`);
       }
 
     } catch (error) {
@@ -79,29 +93,37 @@ function chamarToastCadastro(message) {
 
 // Fetch API login
 const formLogin = document.getElementById("formLoginJS");
+const inputEmailLogin = document.getElementById("inputEmailLogin");
+const inputSenhaLogin = document.getElementById("inputSenhaLogin");
 
 if (formLogin) {
   formLogin.addEventListener("submit", async function (e) {
     e.preventDefault();
 
-    const formDataLogin = new FormData(formLogin);
+    const dadosLogin = {
+      email: inputEmailLogin.value,
+      senha: inputSenhaLogin.value
+    }
 
     try {
       const response = await fetch(formLogin.action, {
         method: "POST",
-        body: formDataLogin
+        headers: {
+          "Content-Type": "application/json"
+        },
+        body: JSON.stringify(dadosLogin)
       });
 
-      let dadosLogin;
+      let resposta;
 
       try {
-        dadosLogin = await response.json();
+        resposta = await response.json();
       } catch {
         throw new Error("Resposta inválida do servidor");
       }
 
-      if (dadosLogin.sucesso && response.ok) {
-        chamarToastLogin(`${dadosLogin.mensagem}`);
+      if (resposta.sucesso && response.ok) {
+        chamarToastLogin(`${resposta.mensagem}`);
 
         formLogin.reset();
 
@@ -109,7 +131,7 @@ if (formLogin) {
           window.location.href = `${BASE_URL}/public/index.php`
         }, 1500);
       } else {
-        chamarToastLogin(`${dadosLogin.mensagem || "Ocorreu um erro ao cadastrar. Por favor, tente novamente."}`);
+        chamarToastLogin(`${resposta.mensagem || "Ocorreu um erro ao cadastrar. Por favor, tente novamente."}`);
       }
 
     } catch (error) {

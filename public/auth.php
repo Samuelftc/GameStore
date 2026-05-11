@@ -27,7 +27,7 @@ require_once '../config/config.php';
                 <!-- LOGIN -->
                 <div class="divAuth" id="formLogin">
                     <h1>Login</h1>
-                    <form class="formAuth" id="formLoginJS" action="<?= API_URL ?>/auth/login.php" method="POST">
+                    <form class="formAuth" id="formLoginJS" action="<?= API_URL ?>/auth/login.php">
                         <input type="email" class="inputAuth" name="email" id="inputEmailLogin" placeholder="E-mail" required>
                         <div class="inputSenhaWrapper">
                             <input type="password" class="inputAuth" name="senha" id="inputSenhaLogin" placeholder="Senha" required>
@@ -44,7 +44,7 @@ require_once '../config/config.php';
                 <!-- CADASTRO -->
                 <div class="divAuth" id="formCadastro">
                     <h1>Cadastrar</h1>
-                    <form class="formAuth" id="formCadastroJS" action="<?= API_URL ?>/auth/cadastro.php" method="POST">
+                    <form class="formAuth" id="formCadastroJS" action="<?= API_URL ?>/auth/cadastro.php">
                         <input type="text" class="inputAuth" name="nome" id="inputNomeCadastrar" placeholder="Nome Completo" required>
                         <input type="email" class="inputAuth" name="email" id="inputEmailCadastrar" placeholder="E-mail" required>
                         <div class="inputSenhaWrapper">

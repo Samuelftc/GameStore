@@ -103,3 +103,13 @@ function removerItem()
     }
     exit;
 }
+
+function metodoNaoPermitido()
+{
+    http_response_code(405);
+    echo json_encode([
+        'sucesso' => false,
+        'mensagem' => 'Método não permitido'
+    ]);
+    exit;
+}
