@@ -1,52 +1,80 @@
-const ultimoPedidoID = JSON.parse(localStorage.getItem('ultimoPedidoID'));
-const pedidos = JSON.parse(localStorage.getItem('pedidos')) || [];
-const pedido = pedidos.find(p => p.id === ultimoPedidoID);
-const usuarioLogado = JSON.parse(localStorage.getItem('usuarioLogado'));
-
-const containerConfirmacao = document.getElementById('containerConfirmacao');
-const idPedido = document.getElementById('idPedido');
+const idPedidoEl = document.getElementById('idPedido');
 const nomeCliente = document.getElementById('nomeCliente');
 const dataCompra = document.getElementById('dataCompra');
 const statusCompra = document.getElementById('statusCompra');
 const itensCompra = document.getElementById('itensCompra');
 const totalCompra = document.getElementById('totalCompra');
 
-function protecaoBase() {
+function pegarPedidoIdDaURL() {
+    const params = new URLSearchParams(window.location.search);
+    return params.get('pedido_id');
+}
+
+function formatarData(dataString) {
+    const data = new Date(dataString.replace(' ', 'T'));
+    return data.toLocaleDateString('pt-BR');
+}
+
+function formatarStatus(status) {
+    return status.charAt(0).toUpperCase() + status.slice(1);
+}
+
+async function carregarPedido() {
     if (!usuarioLogado) {
-        window.location.href = 'index.php'
+        window.location.href = 'index.php';
         return;
     }
 
-    if (!pedido) {
-        window.location.href = 'index.php'
+    const pedidoId = pegarPedidoIdDaURL();
+
+    if (!pedidoId) {
+        window.location.href = 'index.php';
         return;
+    }
+
+    try {
+        const response = await fetch(`${BASE_URL}/API/pedidos/obter.php?pedido_id=${pedidoId}`);
+
+        if (!response.ok) {
+            throw new Error('Pedido não encontrado');
+        }
+
+        const data = await response.json();
+
+        if (!data.sucesso) {
+            throw new Error(data.mensagem || 'Pedido não encontrado');
+        }
+
+        renderizarPedido(data.pedido);
+    } catch (error) {
+        console.error(error);
+        window.location.href = 'index.php';
     }
 }
-protecaoBase()
 
+function renderizarPedido(pedido) {
+    idPedidoEl.textContent = pedido.id;
+    nomeCliente.textContent = usuarioLogado.nome;
+    dataCompra.textContent = formatarData(pedido.criado_em);
+    statusCompra.textContent = formatarStatus(pedido.status);
 
-// Renderizando
-idPedido.textContent = pedido.id;
-nomeCliente.textContent = pedido.nome;
-dataCompra.textContent = pedido.data;
-statusCompra.textContent = pedido.status;
+    itensCompra.innerHTML = '';
 
-pedido.itens.forEach(item => {
-    const li = document.createElement('li');
-    li.className = 'itemConfirmacao';
+    pedido.itens.forEach(item => {
+        const li = document.createElement('li');
+        li.className = 'itemConfirmacao';
 
-    const nome = document.createElement('span');
-    nome.textContent = `${item.nome} (x${item.quantidade}) `;
+        const nome = document.createElement('span');
+        nome.textContent = `${item.produto_nome} (x${item.quantidade}) `;
 
-    const subtotal = document.createElement('span');
-    subtotal.textContent = ` R$ ${(item.preco * item.quantidade).toFixed(2)}`;
+        const subtotal = document.createElement('span');
+        subtotal.textContent = ` R$ ${(item.preco_unitario * item.quantidade).toFixed(2)}`;
 
-    li.append(nome, subtotal);
-    itensCompra.appendChild(li);
-});
+        li.append(nome, subtotal);
+        itensCompra.appendChild(li);
+    });
 
+    totalCompra.textContent = `R$ ${Number(pedido.total).toFixed(2)}`;
+}
 
-
-totalCompra.textContent = `R$: ${pedido.total.toFixed(2)}`;
-
-localStorage.removeItem('ultimoPedidoID');
+carregarPedido();

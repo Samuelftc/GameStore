@@ -1,34 +1,60 @@
 const informacoesCheckout = document.getElementById('informacoesCheckout');
 const totalCheckout = document.getElementById('totalCheckout');
 const btnPagar = document.getElementById('btnPagar');
-const total = itensNoCarrinho.reduce((acc, item) => acc + item.preco * item.quantidade, 0);
-// Array que vai conter os pedidos do usuario
-const pedidos = JSON.parse(localStorage.getItem('pedidos')) || [];
 
-if (itensNoCarrinho.length === 0) {
-    window.location.href = 'index.php';
+let itensCheckout = [];
+let totalPedido = 0;
+
+async function carregarCheckout() {
+    try {
+        const response = await fetch(`${BASE_URL}/API/carrinho/listar.php`);
+
+        if (response.status === 401) {
+            window.location.href = 'auth.php';
+            return;
+        }
+
+        if (!response.ok) {
+            throw new Error('Erro ao buscar carrinho');
+        }
+
+        const data = await response.json();
+        itensCheckout = data.carrinho || [];
+
+        if (itensCheckout.length === 0) {
+            window.location.href = 'index.php';
+            return;
+        }
+
+        renderizarCheckout();
+    } catch (error) {
+        console.error(error);
+        window.location.href = 'index.php';
+    }
 }
 
-function carregarInformacoesCheckout() {
-    itensNoCarrinho.forEach((produto) => {
+function renderizarCheckout() {
+    informacoesCheckout.innerHTML = '';
+
+    itensCheckout.forEach((item) => {
         const liCheckout = document.createElement('li');
         liCheckout.className = 'itemCheckout';
 
         const img = document.createElement('img');
         img.className = 'imagemCheckout';
-        img.src = produto.foto;
-        img.alt = produto.altfoto;
+        img.src = `${BASE_URL}/assets/images/${item.foto}`;
+        img.alt = item.alt_foto;
 
         const info = document.createElement('div');
         info.className = 'infoCheckout';
 
         const nome = document.createElement('h4');
         nome.className = 'nomeCheckout';
-        nome.textContent = produto.nome;
+        nome.textContent = item.produto_nome;
 
         const preco = document.createElement('p');
         preco.className = 'precoCheckout';
-        preco.textContent = `Subtotal:  R$ ${(produto.preco * produto.quantidade).toFixed(2)}`;
+        preco.textContent = `Subtotal:  R$ ${(item.produto_preco * item.quantidade).toFixed(2)}`;
 
         info.append(nome, preco);
 
@@ -37,7 +63,7 @@ function carregarInformacoesCheckout() {
 
         const quantidade = document.createElement('span');
         quantidade.className = 'quantidadeItemCheckout';
-        quantidade.textContent = produto.quantidade;
+        quantidade.textContent = item.quantidade;
 
         divQuantidade.appendChild(quantidade);
 
@@ -45,60 +71,48 @@ function carregarInformacoesCheckout() {
         informacoesCheckout.appendChild(liCheckout);
     });
 
+    totalPedido = itensCheckout.reduce((acc, item) => acc + item.produto_preco * item.quantidade, 0);
+    totalCheckout.textContent = totalPedido.toFixed(2);
 }
-carregarInformacoesCheckout();
 
-function mostrarTotalCheckout() {
-    totalCheckout.textContent = total.toFixed(2);
+async function criarPedido() {
+    const response = await fetch(`${BASE_URL}/API/pedidos/criar.php`, {
+        method: 'POST',
+        headers: { 'Content-Type': 'application/json' }
+    });
+
+    let data;
+    const text = await response.text();
+
+    try {
+        data = JSON.parse(text);
+    } catch (e) {
+        console.error('Resposta da API:', text);
+        throw new Error('Resposta inválida do servidor');
+    }
+
+    if (!response.ok || !data.sucesso) {
+        throw new Error(data.mensagem || 'Erro ao criar pedido');
+    }
+
+    return data.pedido_id;
 }
-mostrarTotalCheckout();
 
-function BotaoPagar() {
+btnPagar.addEventListener('click', async () => {
+    if (!usuarioLogado) {
+        alert('Faça login para finalizar a compra');
+        return;
+    }
+
     btnPagar.disabled = true;
 
     try {
-        criarNovoPedido();
-        alert('Compra realizada com sucesso!');
+        const pedidoId = await criarPedido();
+        window.location.href = `confirmacaoCompra.php?pedido_id=${pedidoId}`;
     } catch (erro) {
         btnPagar.disabled = false;
-        alert('Erro ao processar pedido');
-        return;
+        alert(erro.message || 'Erro ao processar pedido');
     }
-
-    console.log('antes de zerar:', itensNoCarrinho);
-    console.log('chave usada:', chaveCarrinho);
-
-    itensNoCarrinho = [];
-    salvarCarrinho();
-
-    console.log('localStorage depois:', localStorage.getItem(chaveCarrinho));
-
-    window.location.href = 'confirmacaoCompra.php';
-}
-
-function criarNovoPedido() {
-    const agoraPedido = new Date();
-    const novoPedido = {
-        id: Date.now(),
-        idUsuario: usuarioLogado.id,
-        nome: usuarioLogado.nome,
-        itens: [...itensNoCarrinho],
-        total: total,
-        status: "Confirmado",
-        data: agoraPedido.toLocaleDateString('pt-BR'),
-        criadoEm: agoraPedido.getTime()
-    }
-
-    pedidos.push(novoPedido);
-    localStorage.setItem('pedidos', JSON.stringify(pedidos));
-    localStorage.setItem('ultimoPedidoID', JSON.stringify(novoPedido.id));
-}
-
-btnPagar.addEventListener('click', () => {
-    if (!usuarioLogado) {
-        alert("Faça login para finalizar a compra");
-        return;
-    }
-
-    BotaoPagar();
 });
+
+carregarCheckout();

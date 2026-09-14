@@ -8,12 +8,31 @@ const dataCadastroDoUsuario = document.getElementById('dataCadastroDoUsuario');
 const quantidadeComprasFeitas = document.getElementById('quantidadeComprasFeitas');
 const buttonSairPerfil = document.getElementById('buttonSairPerfil');
 
+async function carregarQuantidadeCompras() {
+    try {
+        const response = await fetch(`${BASE_URL}/API/pedidos/listar.php`);
+        if (response.ok) {
+            const data = await response.json();
+            const quantidade = data.pedidos ? data.pedidos.length : 0;
+            if (quantidadeComprasFeitas) {
+                quantidadeComprasFeitas.textContent = quantidade;
+            }
+        }
+    } catch (error) {
+        console.error('Erro ao buscar quantidade de compras:', error);
+        if (quantidadeComprasFeitas) {
+            quantidadeComprasFeitas.textContent = '0';
+        }
+    }
+}
+
 // Agora usa usuarioLogado do PHP (head.php) em vez do localStorage
 if (usuarioLogado) {
     if (nomeDoUsuario) nomeDoUsuario.textContent = usuarioLogado.nome;
     if (emailDoUsuario) emailDoUsuario.textContent = usuarioLogado.email;
     if (dataCadastroDoUsuario) dataCadastroDoUsuario.textContent = usuarioLogado.criado_em ?? '-';
-    if (quantidadeComprasFeitas) quantidadeComprasFeitas.textContent = '0';
+
+    carregarQuantidadeCompras();
 
     if (buttonSairPerfil) {
         buttonSairPerfil.addEventListener('click', async () => {

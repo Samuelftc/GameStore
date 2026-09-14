@@ -69,4 +69,11 @@ class CarrinhoModel
         $stmt = $this->pdo->prepare($sql);
         $stmt->execute([$carrinho_id]);
     }
+
+    public function limparCarrinho($usuario_id)
+    {
+        $sql = "DELETE FROM carrinho WHERE usuario_id = ?";
+        $stmt = $this->pdo->prepare($sql);
+        $stmt->execute([$usuario_id]);
+    }
 }

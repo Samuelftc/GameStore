@@ -6,6 +6,10 @@
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
     <link href="https://fonts.googleapis.com/css2?family=Orbitron:wght@400;700&display=swap" rel="stylesheet">
 
+    <?php if (isset($cssExtra)) : ?>
+        <link rel="stylesheet" href="<?= CSS_URL ?>/<?= $cssExtra ?>">
+    <?php endif ?>
+
     <script>
         const BASE_URL = "<?= BASE_URL ?>";
         const usuarioLogado = <?= isset($_SESSION['usuario'])

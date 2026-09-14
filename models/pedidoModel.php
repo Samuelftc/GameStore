@@ -6,7 +6,7 @@ class PedidoModel
 
     public function __construct()
     {
-        $this->pdo = require_once __DIR__ . '/../config/conexao.php';
+        $this->pdo = require __DIR__ . '/../config/conexao.php';
     }
 
     public function criarPedido($usuario_id, $total, $status = 'pendente')
@@ -33,18 +33,18 @@ class PedidoModel
         return $stmt->execute([$novo_status, $pedido_id]);
     }
 
-    public function adicionarItemPedido($pedido_id, $produto_id, $quantidade, $preco)
+    public function adicionarItemPedido($pedido_id, $produto_id, $quantidade, $preco_unitario)
     {
-        $sql = "INSERT INTO itens_pedido (pedido_id, produto_id, quantidade, preco) VALUES (?, ?, ?, ?)";
+        $sql = "INSERT INTO itens_pedido (pedido_id, produto_id, quantidade, preco_unitario) VALUES (?, ?, ?, ?)";
         $stmt = $this->pdo->prepare($sql);
-        return $stmt->execute([$pedido_id, $produto_id, $quantidade, $preco]);
+        return $stmt->execute([$pedido_id, $produto_id, $quantidade, $preco_unitario]);
     }
 
-    public function obterPedidoPorId($pedido_id)
+    public function obterPedidoPorIdDoUsuario($usuario_id, $pedido_id)
     {
-        $sql = "SELECT * FROM pedidos WHERE id = ?";
+        $sql = "SELECT * FROM pedidos WHERE id = ? AND usuario_id = ?";
         $stmt = $this->pdo->prepare($sql);
-        $stmt->execute([$pedido_id]);
+        $stmt->execute([$pedido_id, $usuario_id]);
         return $stmt->fetch();
     }
 
