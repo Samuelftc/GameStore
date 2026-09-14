@@ -17,13 +17,15 @@ if ($_SERVER['REQUEST_METHOD'] !== 'POST') {
     exit;
 }
 
-$nome = trim($_POST['nome'] ?? '');
-$email = trim($_POST['email'] ?? '');
-$senha = trim($_POST['senha'] ?? '');
-$confirmarSenha = trim($_POST['confirmarSenha'] ?? '');
-$termos = trim($_POST['termos'] ?? '');
+$input = json_decode(file_get_contents('php://input'), true);
 
-if (empty($nome) || empty($email) || empty($senha)) {
+$nome = trim($input['nome'] ?? '');
+$email = trim($input['email'] ?? '');
+$senha = trim($input['senha'] ?? '');
+$confirmarSenha = trim($input['confirmarSenha'] ?? '');
+$termos = trim($input['termos'] ?? false);
+
+if (empty($nome) || empty($email) || empty($senha) || empty($confirmarSenha)) {
     http_response_code(400);
 
     echo json_encode([
@@ -65,7 +67,7 @@ if (!preg_match($regex, $senha)) {
     exit;
 }
 
-if ($termos !== 'on') {
+if (!$termos) {
     http_response_code(400);
 
     echo json_encode([

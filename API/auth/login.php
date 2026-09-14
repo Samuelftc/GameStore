@@ -17,8 +17,10 @@ if ($_SERVER['REQUEST_METHOD'] !== 'POST') {
     exit;
 }
 
-$email = trim($_POST['email'] ?? '');
-$senha = trim($_POST['senha'] ?? '');
+$input = json_decode(file_get_contents('php://input'), true);
+
+$email = trim($input['email'] ?? '');
+$senha = trim($input['senha'] ?? '');
 
 if (empty($email) || empty($senha)) {
     http_response_code(400);
