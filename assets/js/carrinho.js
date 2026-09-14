@@ -79,7 +79,7 @@ async function carregarCarrinho() {
 
     if (listaCarrinho) {
         atualizarCarrinho(itensNoCarrinho);
-        
+
     }
 }
 
@@ -106,7 +106,7 @@ function atualizarCarrinho(carrinho) {
     });
 
     // Total
-    const total = carrinho.reduce((acc, item) => acc + item.preco * item.quantidade, 0);
+    const total = carrinho.reduce((acc, item) => acc + item.produto_preco * item.quantidade, 0);
 
     totalCarrinho.textContent = total.toFixed(2);
     calculaQuantidadeCarrinho();
@@ -142,19 +142,47 @@ function renderizarItemCarrinho(item) {
     diminuir.className = 'diminuirQuantidade';
     diminuir.textContent = '-';
 
-    diminuir.addEventListener('click', () => {
-        if (item.quantidade > 1) {
-            item.quantidade--;
-            chamarToasts(`Quantidade de ${item.produto_nome} diminuída!`);
-        } else {
-            itensNoCarrinho = itensNoCarrinho.filter(
-                carrinhoItem => !(carrinhoItem.id === item.id && carrinhoItem.tipo === item.tipo)
-            );
-            chamarToasts(`${item.produto_nome} removido do carrinho!`);
-        }
+    diminuir.addEventListener('click', async () => {
+        try {
+            if (item.quantidade > 1) {
+                // Atualizar quantidade pra quantidade - 1
+                const response = await fetch(`${BASE_URL}/API/carrinho/atualizar.php`, {
+                    method: 'PUT',
+                    headers: { 'Content-Type': 'application/json' },
+                    body: JSON.stringify({
+                        produto_id: item.produto_id,
+                        quantidade: item.quantidade - 1
+                    })
+                });
+                if (!response.ok) throw new Error('Erro ao atualizar');
+                item.quantidade--;
+                chamarToasts(`Quantidade de ${item.produto_nome} diminuída!`);
+            } else {
+                // Remover item (quantidade = 0)
+                const response = await fetch(`${BASE_URL}/API/carrinho/remover.php`, {
+                    method: 'DELETE',
+                    headers: { 'Content-Type': 'application/json' },
+                    body: JSON.stringify({ produto_id: item.produto_id })
+                });
+                if (!response.ok) throw new Error('Erro ao remover');
+                itensNoCarrinho = itensNoCarrinho.filter(
+                    carrinhoItem => carrinhoItem.id !== item.id
+                );
+                chamarToasts(`${item.produto_nome} removido do carrinho!`);
+            }
 
-        atualizarCarrinho(itensNoCarrinho);
+
+            const responseCarrinho = await fetch(`${BASE_URL}/API/carrinho/listar.php`);
+            if (!responseCarrinho.ok) throw new Error('Erro ao buscar carrinho');
+            const data = await responseCarrinho.json();
+            itensNoCarrinho = data.carrinho || [];
+
+            atualizarCarrinho(itensNoCarrinho);
+        } catch (error) {
+            chamarToasts('Erro ao atualizar carrinho');
+        }
     });
+
 
     const quantidade = document.createElement('span');
     quantidade.className = 'quantidadeItemCarrinho';
@@ -164,10 +192,32 @@ function renderizarItemCarrinho(item) {
     aumentar.className = 'aumentarQuantidade';
     aumentar.textContent = '+';
 
-    aumentar.addEventListener('click', () => {
-        item.quantidade++;
-        chamarToasts(`Quantidade de ${item.produto_nome} aumentada!`);
-        atualizarCarrinho(itensNoCarrinho);
+    aumentar.addEventListener('click', async () => {
+        try {
+            // Faz o fetch PRIMEIRO
+            const response = await fetch(`${BASE_URL}/API/carrinho/atualizar.php`, {
+                method: 'PUT',
+                headers: { 'Content-Type': 'application/json' },
+                body: JSON.stringify({
+                    produto_id: item.produto_id,
+                    quantidade: item.quantidade + 1
+                })
+            });
+
+            if (!response.ok) throw new Error('Erro ao atualizar');
+
+            // SÓ DEPOIS altera e re-renderiza
+            item.quantidade++;
+            const responseCarrinho = await fetch(`${BASE_URL}/API/carrinho/listar.php`);
+            if (!responseCarrinho.ok) throw new Error('Erro ao buscar carrinho');
+            const data = await responseCarrinho.json();
+            itensNoCarrinho = data.carrinho || [];
+
+            atualizarCarrinho(itensNoCarrinho);
+            chamarToasts(`Quantidade de ${item.produto_nome} aumentada!`);
+        } catch (error) {
+            chamarToasts('Erro ao atualizar carrinho');
+        }
     });
 
     divQuantidade.append(diminuir, quantidade, aumentar);

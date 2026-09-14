@@ -1,6 +1,7 @@
 <?php
 
 require_once '../config/config.php';
+include INCLUDES_PATH . '/head.php';
 
 ?>
 

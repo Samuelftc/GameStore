@@ -80,8 +80,8 @@ function criarNovoPedido() {
     const agoraPedido = new Date();
     const novoPedido = {
         id: Date.now(),
-        idUsuario: usuarioAtual.id,
-        nome: usuarioAtual.nome,
+        idUsuario: usuarioLogado.id,
+        nome: usuarioLogado.nome,
         itens: [...itensNoCarrinho],
         total: total,
         status: "Confirmado",
@@ -95,7 +95,7 @@ function criarNovoPedido() {
 }
 
 btnPagar.addEventListener('click', () => {
-    if (!usuarioAtual) {
+    if (!usuarioLogado) {
         alert("Faça login para finalizar a compra");
         return;
     }
