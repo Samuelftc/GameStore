@@ -109,6 +109,7 @@ async function adicionarNoCarrinho(produtoId) {
         }
 
         chamarToasts(data.mensagem);
+        await carregarCarrinho();
 
     } catch (error) {
 

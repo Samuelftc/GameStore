@@ -46,7 +46,7 @@ async function pegarCarrinho() {
         const response = await fetch(`${BASE_URL}/API/carrinho/listar.php`);
 
         if (response.status === 401) {
-            throw new Error('Faça login para acessar o carrinho');
+            return [];
         }
 
         if (!response.ok) {

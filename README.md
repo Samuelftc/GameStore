@@ -1,96 +1,197 @@
-# 🛒 GameStore
+# GameStore
 
-Sistema web de e-commerce de jogos digitais em desenvolvimento, com foco em simular uma aplicação real completa utilizando PHP, banco de dados e integração entre front-end e back-end.
-
----
-
-## 📌 Sobre o projeto
-
-A GameStore é uma aplicação web que simula uma loja online de jogos, permitindo navegação por produtos, gerenciamento de carrinho e estrutura preparada para autenticação de usuários e processamento de pedidos.
-
-O projeto tem como objetivo consolidar conhecimentos em desenvolvimento full-stack, com ênfase em organização de código, integração com banco de dados e construção de sistemas escaláveis.
+Sistema completo de e-commerce de jogos digitais e hardware. Aplicação full-stack com autenticação de usuários, gerenciamento de carrinho, processamento de pedidos e painel administrativo (em desenvolvimento).
 
 ---
 
-## 🚀 Funcionalidades atuais
+## Sobre o projeto
 
-* Catálogo dinâmico de produtos
-* Visualização de detalhes dos jogos
-* Carrinho de compras com persistência (localStorage)
-* Estrutura base em PHP para integração com backend
-* Interface responsiva
+GameStore é uma loja online de jogos e hardware com arquitetura moderna, separando claramente back-end (APIs RESTful) do front-end (JavaScript vanilla). O projeto demonstra boas práticas em segurança, organização de código e integração entre camadas.
+
+**Objetivo:** Consolidar conhecimentos em desenvolvimento full-stack com ênfase em segurança, arquitetura limpa e experiência do usuário.
 
 ---
 
-## 🧠 Próximas implementações
+## Funcionalidades
 
-* Sistema de autenticação (login e cadastro com sessões)
-* Integração completa com banco de dados (MySQL)
-* Gerenciamento de pedidos
-* Painel administrativo
-* Persistência real do carrinho no backend
+### Implementadas
 
----
+- **Autenticação** — Login, cadastro, logout com sessões seguras
+- **Carrinho de compras** — Adicionar, remover, atualizar quantidade (com persistência no BD)
+- **Catálogo dinâmico** — Listagem de jogos e hardware com filtros por categoria/plataforma
+- **Detalhe do produto** — Visualização completa de cada item
+- **Checkout** — Fluxo completo de finalização de compra
+- **Pedidos** — Criação, listagem, visualização de histórico de compras
+- **Perfil do usuário** — Dados pessoais, quantidade de compras
+- **Interface responsiva** — Otimizada para mobile, tablet e desktop
 
-## 🛠 Tecnologias utilizadas
+### Em progresso
 
-**Front-end**
-
-* HTML5
-* CSS3
-* JavaScript
-
-**Back-end**
-
-* PHP
-
-**Banco de dados (planejado)**
-
-* MySQL
+- Painel administrativo (listar pedidos, usuários, status)
+- Recuperação de senha por email
+- Alterar dados do usuário
+- Trocar senha
 
 ---
 
-## ⚙️ Como executar
+## Tecnologias
 
-1. Clone o repositório:
+### Front-end
+- **HTML5** — Estrutura semântica
+- **CSS3** — Layout responsivo, animações
+- **JavaScript** — Vanilla JS, Fetch API, tratamento de eventos
 
+### Back-end
+- **PHP 7.4+** — Processamento server-side
+- **MySQL** — Banco de dados relacional
+- **PDO** — Prepared statements (segurança contra SQL injection)
+
+### Segurança
+- `password_hash()` / `password_verify()` para senhas
+- Prepared statements em todas as queries
+- Session segura com `session_regenerate_id()`
+- Autenticação obrigatória nas APIs sensíveis
+- Validação de autorização (usuário acessa só seus dados)
+
+---
+
+## Como executar
+
+### Requisitos
+- PHP 7.4+
+- MySQL 5.7+
+- Servidor local (XAMPP, WAMP, Laragon)
+
+### Passos
+
+1. **Clone o repositório:**
 ```bash
 git clone https://github.com/samuel208-max/gamestore.git
+cd gamestore
 ```
 
-2. Execute em um servidor local (XAMPP, WAMP, Laragon, etc.)
+2. **Configure o banco de dados:**
+   - Importe `database/banco.sql` no phpMyAdmin
+   - Importe `database/inserts.sql` para dados iniciais
 
-3. Acesse no navegador:
+3. **Configure a conexão (se necessário):**
+   - Edite `config/conexao.php` com suas credenciais MySQL
 
-```
-http://localhost/gamestore/
-```
-
----
-
-## 🧱 Estrutura do projeto
-
+4. **Execute em servidor local:**
 ```bash
-gamestore/
-│
-├── index.php
-├── public/
-├── assets/
-│   ├── css/
-│   ├── js/
-│   └── images/
-├── includes/
-└── config/
+# No XAMPP, coloque a pasta em htdocs/
+# Acesse no navegador:
+http://localhost/GameStore/
 ```
 
 ---
 
-## 📈 Objetivo do projeto
+## Estrutura do projeto
 
-Desenvolver uma aplicação completa de e-commerce como parte da minha evolução como desenvolvedor full-stack, aplicando boas práticas de organização, segurança e integração entre camadas.
+```
+GameStore/
+├── API/                          # Endpoints RESTful
+│   ├── auth/                    # Login, cadastro, logout
+│   ├── carrinho/                # CRUD do carrinho
+│   ├── pedidos/                 # Criar, listar, obter pedidos
+│   └── produtos/                # Listar e filtrar produtos
+├── assets/
+│   ├── css/                     # Estilos das páginas
+│   ├── js/                      # Lógica front-end
+│   └── images/                  # Imagens de produtos
+├── config/
+│   ├── conexao.php              # Conexão PDO com BD
+│   └── config.php               # Constantes da app
+├── database/
+│   ├── banco.sql                # Schema do BD
+│   └── inserts.sql              # Dados iniciais
+├── includes/
+│   ├── head.php                 # Meta tags, scripts globais
+│   ├── header.php               # Navbar
+│   ├── footer.php               # Footer, scripts
+│   ├── carrinho.php             # Sidebar do carrinho
+│   └── meuPerfil.php            # Sidebar de perfil
+├── models/                       # Camada de dados
+│   ├── usuarioModel.php
+│   ├── produtosModel.php
+│   ├── carrinhoModel.php
+│   └── pedidoModel.php
+├── public/                       # Páginas visíveis
+│   ├── index.php                # Home
+│   ├── auth.php                 # Login/Cadastro
+│   ├── catalogo.php             # Listagem de jogos
+│   ├── hardware.php             # Listagem de hardware
+│   ├── produto.php              # Detalhes do produto
+│   ├── checkout.php             # Resumo antes de pagar
+│   ├── confirmacaoCompra.php    # Confirmação do pedido
+│   └── minhasCompras.php        # Histórico de compras
+└── README.md
+```
 
 ---
 
-## 📄 Status
+## Segurança
 
-🚧 Em desenvolvimento
+- ✅ Queries com prepared statements (sem SQL injection)
+- ✅ Hashing de senhas com `password_hash()` (bcrypt)
+- ✅ Session regeneration após login
+- ✅ Validação de autorização (usuário acessa só seus dados)
+- ✅ JSON responses com Content-Type correto
+- ✅ HTTP status codes apropriados
+
+---
+
+## Fluxo do usuário
+
+1. **Visitante** → Visualiza produtos, tenta adicionar ao carrinho → Redirecionado pra login
+2. **Novo usuário** → Cadastra-se com email, nome, senha forte
+3. **Usuário logado** → Adiciona itens ao carrinho, vê resumo, finaliza compra
+4. **Pós-compra** → Recebe confirmação, pode ver histórico de pedidos
+
+---
+
+## Exemplos de uso
+
+### Adicionar ao carrinho
+```javascript
+POST /API/carrinho/adicionar.php
+{
+  "produto_id": 1,
+  "quantidade": 1
+}
+```
+
+### Fazer login
+```javascript
+POST /API/auth/login.php
+{
+  "email": "user@example.com",
+  "senha": "Senha123!"
+}
+```
+
+### Listar pedidos do usuário
+```javascript
+GET /API/pedidos/listar.php
+// Retorna array de pedidos com itens
+```
+
+---
+
+## Status
+
+✅ **Funcionalidades core:** Completas e testadas  
+🚧 **Extras:** Painel admin, recuperação de senha em progresso  
+📋 **Próximo:** Testes automatizados, documentação Swagger
+
+---
+
+## Autor
+
+[Samuel Ferreira](https://github.com/Samuelftc)
+
+---
+
+## Licença
+
+Projeto de estudos — livre para uso e modificação.
