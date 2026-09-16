@@ -86,6 +86,35 @@ http://localhost/GameStore/
 
 ---
 
+## Documentação Interativa (Swagger)
+
+A API possui documentação completa e **testável** via Swagger UI:
+
+```
+http://localhost/GameStore/swagger-ui.html
+```
+
+**O que você encontra lá:**
+- ✅ Todos os 13 endpoints documentados
+- ✅ Descrição de cada endpoint
+- ✅ Exemplos de requisição e resposta
+- ✅ Parâmetros obrigatórios/opcionais
+- ✅ **Testar a API diretamente na interface** (sem precisar de Postman)
+
+**Como testar:**
+1. Acesse `http://localhost/GameStore/swagger-ui.html`
+2. Clique em um endpoint (ex: "Fazer login")
+3. Clique em "Try it out"
+4. Preencha os valores
+5. Clique em "Execute"
+6. Veja a resposta em tempo real
+
+**Arquivos relacionados:**
+- `swagger.yaml` — Especificação OpenAPI 3.0 completa
+- `swagger-ui.html` — Interface visual interativa para testar a API
+
+---
+
 ## Estrutura do projeto
 
 ```
@@ -125,6 +154,8 @@ GameStore/
 │   ├── checkout.php             # Resumo antes de pagar
 │   ├── confirmacaoCompra.php    # Confirmação do pedido
 │   └── minhasCompras.php        # Histórico de compras
+├── swagger.yaml                  # Documentação OpenAPI
+├── swagger-ui.html              # Interface Swagger UI
 └── README.md
 ```
 
@@ -181,8 +212,9 @@ GET /API/pedidos/listar.php
 ## Status
 
 ✅ **Funcionalidades core:** Completas e testadas  
+✅ **Documentação:** Swagger OpenAPI completo  
 🚧 **Extras:** Painel admin, recuperação de senha em progresso  
-📋 **Próximo:** Testes automatizados, documentação Swagger
+📋 **Próximo:** Testes automatizados, deploy
 
 ---
 

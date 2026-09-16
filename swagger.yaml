@@ -1,0 +1,523 @@
+openapi: 3.0.0
+info:
+  title: GameStore API
+  description: API completa para e-commerce de jogos e hardware
+  version: 1.0.0
+  contact:
+    name: Samuel Ferreira
+    url: https://github.com/Samuelftc
+
+servers:
+  - url: http://localhost/GameStore
+    description: Servidor local
+
+tags:
+  - name: Autenticação
+    description: Login, cadastro, logout
+  - name: Carrinho
+    description: Gerenciar itens do carrinho
+  - name: Pedidos
+    description: Criar e listar pedidos
+  - name: Produtos
+    description: Listar e obter detalhes de produtos
+
+paths:
+  /API/auth/login.php:
+    post:
+      tags:
+        - Autenticação
+      summary: Fazer login
+      description: Autentica um usuário e cria uma sessão
+      requestBody:
+        required: true
+        content:
+          application/json:
+            schema:
+              type: object
+              properties:
+                email:
+                  type: string
+                  format: email
+                  example: user@example.com
+                senha:
+                  type: string
+                  format: password
+                  example: Senha123!
+              required:
+                - email
+                - senha
+      responses:
+        '200':
+          description: Login realizado com sucesso
+          content:
+            application/json:
+              schema:
+                type: object
+                properties:
+                  sucesso:
+                    type: boolean
+                  mensagem:
+                    type: string
+                  usuario:
+                    type: object
+                    properties:
+                      id:
+                        type: integer
+                      nome:
+                        type: string
+                      email:
+                        type: string
+                      criado_em:
+                        type: string
+        '400':
+          description: Campos vazios ou inválidos
+        '401':
+          description: Credenciais inválidas
+
+  /API/auth/cadastro.php:
+    post:
+      tags:
+        - Autenticação
+      summary: Cadastrar novo usuário
+      description: Cria uma nova conta de usuário
+      requestBody:
+        required: true
+        content:
+          application/json:
+            schema:
+              type: object
+              properties:
+                nome:
+                  type: string
+                  example: João Silva
+                email:
+                  type: string
+                  format: email
+                  example: joao@example.com
+                senha:
+                  type: string
+                  format: password
+                  minLength: 8
+                  example: Senha123!
+                confirmarSenha:
+                  type: string
+                  format: password
+                  example: Senha123!
+                termos:
+                  type: boolean
+                  example: true
+              required:
+                - nome
+                - email
+                - senha
+                - confirmarSenha
+                - termos
+      responses:
+        '200':
+          description: Cadastro realizado com sucesso
+        '400':
+          description: Validação falhou (email duplicado, senha fraca, etc)
+        '409':
+          description: Email já existe
+
+  /API/auth/logout.php:
+    post:
+      tags:
+        - Autenticação
+      summary: Fazer logout
+      description: Encerra a sessão do usuário
+      responses:
+        '200':
+          description: Logout realizado
+
+  /API/carrinho/listar.php:
+    get:
+      tags:
+        - Carrinho
+      summary: Listar itens do carrinho
+      description: Retorna todos os itens no carrinho do usuário logado
+      security:
+        - sessionAuth: []
+      responses:
+        '200':
+          description: Carrinho retornado com sucesso
+          content:
+            application/json:
+              schema:
+                type: object
+                properties:
+                  sucesso:
+                    type: boolean
+                  carrinho:
+                    type: array
+                    items:
+                      type: object
+                      properties:
+                        id:
+                          type: integer
+                        produto_id:
+                          type: integer
+                        quantidade:
+                          type: integer
+                        produto_nome:
+                          type: string
+                        produto_preco:
+                          type: number
+                        foto:
+                          type: string
+                        alt_foto:
+                          type: string
+                  total:
+                    type: number
+        '401':
+          description: Não autorizado (sem sessão)
+
+  /API/carrinho/adicionar.php:
+    post:
+      tags:
+        - Carrinho
+      summary: Adicionar item ao carrinho
+      description: Adiciona um produto ao carrinho (ou aumenta quantidade se já existe)
+      security:
+        - sessionAuth: []
+      requestBody:
+        required: true
+        content:
+          application/json:
+            schema:
+              type: object
+              properties:
+                produto_id:
+                  type: integer
+                  example: 1
+                quantidade:
+                  type: integer
+                  example: 1
+              required:
+                - produto_id
+      responses:
+        '201':
+          description: Item adicionado com sucesso
+          content:
+            application/json:
+              schema:
+                type: object
+                properties:
+                  sucesso:
+                    type: boolean
+                  mensagem:
+                    type: string
+        '401':
+          description: Não autorizado
+
+  /API/carrinho/atualizar.php:
+    put:
+      tags:
+        - Carrinho
+      summary: Atualizar quantidade do item
+      description: Altera a quantidade de um item específico no carrinho
+      security:
+        - sessionAuth: []
+      requestBody:
+        required: true
+        content:
+          application/json:
+            schema:
+              type: object
+              properties:
+                produto_id:
+                  type: integer
+                  example: 1
+                quantidade:
+                  type: integer
+                  minimum: 1
+                  example: 5
+              required:
+                - produto_id
+                - quantidade
+      responses:
+        '200':
+          description: Quantidade atualizada
+        '400':
+          description: Quantidade inválida
+        '401':
+          description: Não autorizado
+        '404':
+          description: Item não encontrado no carrinho
+
+  /API/carrinho/remover.php:
+    delete:
+      tags:
+        - Carrinho
+      summary: Remover item do carrinho
+      description: Remove um produto do carrinho
+      security:
+        - sessionAuth: []
+      requestBody:
+        required: true
+        content:
+          application/json:
+            schema:
+              type: object
+              properties:
+                produto_id:
+                  type: integer
+                  example: 1
+              required:
+                - produto_id
+      responses:
+        '200':
+          description: Item removido com sucesso
+        '401':
+          description: Não autorizado
+        '404':
+          description: Item não encontrado
+
+  /API/pedidos/criar.php:
+    post:
+      tags:
+        - Pedidos
+      summary: Criar novo pedido
+      description: Converte o carrinho em pedido, limpa carrinho e retorna ID do pedido
+      security:
+        - sessionAuth: []
+      responses:
+        '201':
+          description: Pedido criado com sucesso
+          content:
+            application/json:
+              schema:
+                type: object
+                properties:
+                  sucesso:
+                    type: boolean
+                  mensagem:
+                    type: string
+                  pedido_id:
+                    type: integer
+        '400':
+          description: Carrinho vazio
+        '401':
+          description: Não autorizado
+        '500':
+          description: Erro ao criar pedido
+
+  /API/pedidos/listar.php:
+    get:
+      tags:
+        - Pedidos
+      summary: Listar pedidos do usuário
+      description: Retorna todos os pedidos do usuário logado com seus itens
+      security:
+        - sessionAuth: []
+      responses:
+        '200':
+          description: Pedidos retornados com sucesso
+          content:
+            application/json:
+              schema:
+                type: object
+                properties:
+                  sucesso:
+                    type: boolean
+                  pedidos:
+                    type: array
+                    items:
+                      type: object
+                      properties:
+                        id:
+                          type: integer
+                        usuario_id:
+                          type: integer
+                        total:
+                          type: number
+                        status:
+                          type: string
+                          enum: [pendente, confirmado, cancelado]
+                        criado_em:
+                          type: string
+                          format: date-time
+                        itens:
+                          type: array
+                          items:
+                            type: object
+                            properties:
+                              id:
+                                type: integer
+                              produto_id:
+                                type: integer
+                              produto_nome:
+                                type: string
+                              quantidade:
+                                type: integer
+                              preco_unitario:
+                                type: number
+        '401':
+          description: Não autorizado
+
+  /API/pedidos/obter.php:
+    get:
+      tags:
+        - Pedidos
+      summary: Obter detalhes de um pedido
+      description: Retorna os detalhes completos de um pedido específico (validando se pertence ao usuário)
+      security:
+        - sessionAuth: []
+      parameters:
+        - name: pedido_id
+          in: query
+          required: true
+          schema:
+            type: integer
+          example: 1
+      responses:
+        '200':
+          description: Pedido retornado com sucesso
+          content:
+            application/json:
+              schema:
+                type: object
+                properties:
+                  sucesso:
+                    type: boolean
+                  pedido:
+                    type: object
+                    properties:
+                      id:
+                        type: integer
+                      usuario_id:
+                        type: integer
+                      total:
+                        type: number
+                      status:
+                        type: string
+                      criado_em:
+                        type: string
+                      itens:
+                        type: array
+                        items:
+                          type: object
+                          properties:
+                            produto_nome:
+                              type: string
+                            quantidade:
+                              type: integer
+                            preco_unitario:
+                              type: number
+        '400':
+          description: ID do pedido não fornecido
+        '401':
+          description: Não autorizado
+        '404':
+          description: Pedido não encontrado
+
+  /API/produtos/jogos.php:
+    get:
+      tags:
+        - Produtos
+      summary: Listar todos os jogos
+      description: Retorna lista paginada de todos os jogos com categorias e plataformas
+      responses:
+        '200':
+          description: Lista de jogos
+          content:
+            application/json:
+              schema:
+                type: object
+                properties:
+                  sucesso:
+                    type: boolean
+                  produtos:
+                    type: array
+                    items:
+                      type: object
+                      properties:
+                        id:
+                          type: integer
+                        nome:
+                          type: string
+                        descricao:
+                          type: string
+                        preco:
+                          type: number
+                        foto:
+                          type: string
+                        tipo:
+                          type: string
+                        categorias:
+                          type: array
+                          items:
+                            type: string
+                        plataformas:
+                          type: array
+                          items:
+                            type: string
+
+  /API/produtos/hardware.php:
+    get:
+      tags:
+        - Produtos
+      summary: Listar todos os itens de hardware
+      description: Retorna lista de hardware disponível
+      responses:
+        '200':
+          description: Lista de hardware
+
+  /API/produtos/produto.php:
+    get:
+      tags:
+        - Produtos
+      summary: Obter detalhes de um produto
+      description: Retorna informações completas de um produto específico
+      parameters:
+        - name: id
+          in: query
+          required: true
+          schema:
+            type: integer
+          example: 1
+      responses:
+        '200':
+          description: Detalhes do produto
+          content:
+            application/json:
+              schema:
+                type: object
+                properties:
+                  sucesso:
+                    type: boolean
+                  produto:
+                    type: object
+                    properties:
+                      id:
+                        type: integer
+                      nome:
+                        type: string
+                      descricao:
+                        type: string
+                      preco:
+                        type: number
+                      foto:
+                        type: string
+                      alt_foto:
+                        type: string
+                      tipo:
+                        type: string
+                      categorias:
+                        type: array
+                        items:
+                          type: string
+                      plataformas:
+                        type: array
+                        items:
+                          type: string
+        '404':
+          description: Produto não encontrado
+
+components:
+  securitySchemes:
+    sessionAuth:
+      type: apiKey
+      in: cookie
+      name: PHPSESSID
+      description: Sessão PHP após login bem-sucedido
