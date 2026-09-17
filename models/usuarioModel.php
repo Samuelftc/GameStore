@@ -71,10 +71,10 @@ class UsuarioModel
 
     public function atualizarSenhaComToken($token, $senhaHash)
     {
-        $sql = "UPDATE usuarios 
-        SET senha = ?, 
-            reset_token = NULL, 
-            expiracao_token = NULL 
+        $sql = "UPDATE usuarios
+        SET senha = ?,
+            reset_token = NULL,
+            expiracao_token = NULL
         WHERE reset_token = ?
         AND expiracao_token > NOW()";
 
@@ -82,5 +82,12 @@ class UsuarioModel
         $stmt->execute([$senhaHash, $token]);
 
         return $stmt->rowCount();
+    }
+
+    public function atualizarPerfil($id, $nome, $email)
+    {
+        $sql = "UPDATE usuarios SET nome = ?, email = ? WHERE id = ?";
+        $stmt = $this->pdo->prepare($sql);
+        return $stmt->execute([$nome, $email, $id]);
     }
 }

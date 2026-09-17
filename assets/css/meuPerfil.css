@@ -10,7 +10,6 @@
     box-shadow: -5px 0 25px rgba(0, 255, 204, 0.08);
     display: flex;
     flex-direction: column;
-    justify-content: space-between;
     z-index: 1000;
     transform: translateX(110%);
     /* começa totalmente fora da tela */
@@ -177,4 +176,124 @@
     .emailDoUsuario {
         font-size: 12px;
     }
+}
+
+/* Abas e Formulário - Alterar Dados */
+.abaPerfil {
+    flex: 1;
+    overflow-y: auto;
+    display: flex;
+    flex-direction: column;
+}
+
+#abaDados {
+    justify-content: space-between;
+}
+
+#abaAlterarDados {
+    gap: 20px;
+}
+
+.btnVoltar {
+    background: none;
+    border: none;
+    color: #00ffcc;
+    cursor: pointer;
+    font-size: 14px;
+    transition: color 0.3s;
+    display: flex;
+    align-items: center;
+    gap: 5px;
+    padding: 0;
+}
+
+.btnVoltar:hover {
+    color: #00ff88;
+}
+
+.btnVoltar i {
+    font-size: 12px;
+}
+
+.formAlterarDados {
+    display: flex;
+    flex-direction: column;
+    gap: 15px;
+}
+
+.campoPerfil {
+    display: flex;
+    flex-direction: column;
+    gap: 5px;
+}
+
+.campoPerfil label {
+    color: #00ffcc;
+    font-size: 12px;
+    font-weight: bold;
+}
+
+.inputPerfil {
+    padding: 8px 10px;
+    border-radius: 6px;
+    border: 1px solid #1f2937;
+    background-color: #0f172a;
+    color: #ffffff;
+    font-size: 14px;
+    transition: border-color 0.3s, box-shadow 0.3s;
+}
+
+.inputPerfil:focus {
+    outline: none;
+    border-color: #00ffcc;
+    box-shadow: 0 0 8px rgba(0, 255, 204, 0.3);
+}
+
+.btnPerfil {
+    padding: 8px 15px;
+    border-radius: 6px;
+    border: none;
+    background-color: #00ff88;
+    color: #000;
+    font-weight: bold;
+    cursor: pointer;
+    font-size: 14px;
+    transition: background-color 0.3s;
+}
+
+.btnPerfil:hover {
+    background-color: #04d875;
+}
+
+.btnPerfil:disabled {
+    background-color: #888;
+    cursor: not-allowed;
+}
+
+.alerta-sucesso,
+.alerta-erro {
+    padding: 10px;
+    border-radius: 6px;
+    font-size: 13px;
+}
+
+.alerta-sucesso {
+    background-color: rgba(39, 174, 96, 0.2);
+    border: 1px solid #27ae60;
+    color: #2ecc71;
+}
+
+.alerta-erro {
+    background-color: rgba(200, 50, 50, 0.2);
+    border: 1px solid #c83232;
+    color: #ff6b6b;
+}
+
+/* Botão Sair no final da aba */
+#abaDados #buttonSairPerfil {
+    margin-top: auto;
+    margin-bottom: 0;
+    width: 100%;
+    padding: 12px 0;
+    font-size: 16px;
 }
