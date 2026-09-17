@@ -1,0 +1,16 @@
+{
+    "name": "samuel/gamestore",
+    "autoload": {
+        "psr-4": {
+            "Samuel\\Gamestore\\": "src/"
+        }
+    },
+    "authors": [
+        {
+            "name": "s"
+        }
+    ],
+    "require": {
+        "phpmailer/phpmailer": "^7.1"
+    }
+}

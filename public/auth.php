@@ -33,7 +33,7 @@ require_once '../config/config.php';
                             <input type="password" class="inputAuth" name="senha" id="inputSenhaLogin" placeholder="Senha" required>
                             <i class="fa-regular fa-eye toggleSenha"></i>
                         </div>
-                        <a href="">Esqueceu sua senha?</a>
+                        <a href="<?= BASE_URL ?>/public/esqueceu-senha.php">Esqueceu sua senha?</a>
                         <button type="submit" id="submitLogin">Login</button>
                         <button type="button" class="btnAlternarAuth" id="irParaCadastro">
                             Não tem conta? Cadastre-se

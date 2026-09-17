@@ -169,6 +169,8 @@ CREATE TABLE
     `nome` varchar(100) NOT NULL,
     `email` varchar(150) NOT NULL,
     `senha` varchar(255) NOT NULL,
+    `reset_token` varchar(255) DEFAULT NULL,
+    `expiracao_token` datetime DEFAULT NULL,
     `status` tinyint (1) DEFAULT 1,
     `criado_em` datetime DEFAULT current_timestamp(),
     `atualizado_em` datetime DEFAULT current_timestamp() ON UPDATE current_timestamp(),

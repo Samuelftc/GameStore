@@ -18,6 +18,16 @@ class UsuarioModel
         return $this->pdo->lastInsertId();
     }
 
+    public function buscarPorId($id)
+    {
+        $sql = "SELECT * FROM usuarios WHERE id = ? AND status = 1";
+
+        $stmt = $this->pdo->prepare($sql);
+        $stmt->execute([$id]);
+
+        return $stmt->fetch();
+    }
+
     public function buscarPorEmail($email)
     {
         $sql = "SELECT * FROM usuarios WHERE email = ? AND status = 1";
@@ -34,5 +44,43 @@ class UsuarioModel
         $stmt->execute([$email]);
 
         return $stmt->fetch() !== false;
+    }
+
+    public function salvarTokenReset($id, $token, $expira)
+    {
+        $sql = "UPDATE usuarios 
+            SET reset_token = ?, expiracao_token = ? 
+            WHERE id = ?";
+
+        $stmt = $this->pdo->prepare($sql);
+        return $stmt->execute([$token, $expira, $id]);
+    }
+
+    public function buscarPorToken($token)
+    {
+        $sql = "SELECT * FROM usuarios 
+            WHERE reset_token = ? 
+            AND expiracao_token > NOW()
+            AND status = 1";
+
+        $stmt = $this->pdo->prepare($sql);
+        $stmt->execute([$token]);
+
+        return $stmt->fetch();
+    }
+
+    public function atualizarSenhaComToken($token, $senhaHash)
+    {
+        $sql = "UPDATE usuarios 
+        SET senha = ?, 
+            reset_token = NULL, 
+            expiracao_token = NULL 
+        WHERE reset_token = ?
+        AND expiracao_token > NOW()";
+
+        $stmt = $this->pdo->prepare($sql);
+        $stmt->execute([$senhaHash, $token]);
+
+        return $stmt->rowCount();
     }
 }
