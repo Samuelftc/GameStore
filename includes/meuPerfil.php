@@ -24,12 +24,12 @@
 
     <!-- ABA: Alterar Dados -->
     <div class="abaPerfil" id="abaAlterarDados" style="display: none;">
-        <button id="voltarParaDados" class="btnVoltar"><i class="fa-solid fa-arrow-left"></i> Voltar</button>
+        <button id="" class="btnVoltar voltarParaDados"><i class="fa-solid fa-arrow-left"></i> Voltar</button>
 
         <div id="avisoAtualizacao" class="alerta-sucesso" style="display: none; margin: 15px 0;"></div>
         <div id="erroAtualizacao" class="alerta-erro" style="display: none; margin: 15px 0;"></div>
 
-        <form class="formAlterarDados" id="formAlterarDados">
+        <form class="formAlterarDados" id="formAlterarDados" style="margin-top: 20px;">
             <div class="campoPerfil">
                 <label for="inputNomePerfil">Nome Completo:</label>
                 <input
@@ -37,8 +37,7 @@
                     id="inputNomePerfil"
                     name="nome"
                     class="inputPerfil"
-                    required
-                >
+                    required>
             </div>
 
             <div class="campoPerfil">
@@ -48,11 +47,56 @@
                     id="inputEmailPerfil"
                     name="email"
                     class="inputPerfil"
-                    required
-                >
+                    required>
             </div>
 
             <button type="submit" id="submitEditarPerfil" class="btnPerfil">Salvar Alterações</button>
+        </form>
+    </div>
+
+    <!-- ABA: Alterar Senha -->
+    <div class="abaPerfil" id="abaAlterarSenha" style="display: none;">
+        <button class="btnVoltar voltarParaDados"><i class="fa-solid fa-arrow-left"></i> Voltar</button>
+
+        <div id="avisoAlteracaoSenha" class="alerta-sucesso" style="display: none; margin: 15px 0;"></div>
+        <div id="erroAlteracaoSenha" class="alerta-erro" style="display: none; margin: 15px 0;"></div>
+
+        <form class="formAlterarSenha" id="formAlterarSenha" style="margin-top: 20px;">
+            <div class="campoPerfil">
+                <label for="inputSenhaAtual">Senha Atual:</label>
+                <input
+                    type="password"
+                    id="inputSenhaAtual"
+                    name="senhaAtual"
+                    class="inputPerfil"
+                    required>
+            </div>
+
+            <div class="campoPerfil">
+                <label for="inputNovaSenha">Nova Senha:</label>
+                <input
+                    type="password"
+                    id="inputNovaSenha"
+                    name="novaSenha"
+                    class="inputPerfil"
+                    required>
+            </div>
+
+            <div class="campoPerfil">
+                <label for="inputConfirmarSenha">Confirmar Senha:</label>
+                <input
+                    type="password"
+                    id="inputConfirmarSenha"
+                    name="confirmarSenha"
+                    class="inputPerfil"
+                    required>
+            </div>
+
+            <small style="color: #888; font-size: 12px; display: block; margin: 10px 0;">
+                Mínimo 8 caracteres, maiúscula, minúscula, número e símbolo.
+            </small>
+
+            <button type="submit" id="submitAlterarSenha" class="btnPerfil">Alterar Senha</button>
         </form>
     </div>
 

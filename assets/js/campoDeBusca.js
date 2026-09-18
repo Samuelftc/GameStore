@@ -2,28 +2,36 @@ const inputBarraDePesquisa = document.getElementById("inputBarraDePesquisa");
 const resultadosContainer = document.getElementById("resultadosPesquisa");
 
 if (inputBarraDePesquisa) {
-  inputBarraDePesquisa.addEventListener("input", () => {
-    const filtrar = inputBarraDePesquisa.value.toLowerCase();
+  inputBarraDePesquisa.addEventListener("input", async () => {
+    const termo = inputBarraDePesquisa.value.trim();
 
-    if (filtrar.length < 2) {
-      document.getElementById("resultadosPesquisa").innerHTML = "";
+    if (termo.length < 2) {
+      resultadosContainer.innerHTML = "";
       resultadosContainer.style.display = "none";
       return;
     }
 
-    resultadosContainer.style.display = "block";
+    try {
+      const response = await fetch(`${BASE_URL}/API/produtos/buscar.php?termo=${encodeURIComponent(termo)}`);
+      const data = await response.json();
 
-    const produtosFiltrados = [...Jogos, ...Hardware].filter((p) =>
-      p.nome.toLowerCase().includes(filtrar),
-    );
-
-    exibirResultados(produtosFiltrados);
+      if (data.sucesso) {
+        resultadosContainer.style.display = "block";
+        exibirResultados(data.produtos);
+      } else {
+        resultadosContainer.innerHTML = "<p>Erro ao buscar produtos</p>";
+      }
+    } catch (error) {
+      console.error('Erro na busca:', error);
+      resultadosContainer.innerHTML = "<p>Erro ao buscar produtos</p>";
+    }
   });
 }
 
 function exibirResultados(produtos) {
   resultadosContainer.innerHTML = "";
-  if (produtos.length === 0) {
+
+  if (!produtos || produtos.length === 0) {
     const semResultados = document.createElement("p");
     semResultados.textContent = "Nenhum resultado encontrado.";
     resultadosContainer.appendChild(semResultados);
@@ -36,18 +44,26 @@ function exibirResultados(produtos) {
     item.className = "itemResultadoPesquisa";
 
     const link = document.createElement("a");
-    link.href = `produto.php?tipo=${produto.tipo}&id=${produto.id}`;
+    link.href = `${BASE_URL}/public/produto.php?id=${produto.id}`;
 
     const img = document.createElement("img");
-    img.src = produto.foto;
-    img.alt = produto.altFoto;
+    img.src = `${BASE_URL}/assets/images/${produto.foto}`;
+    img.alt = produto.alt_foto || produto.nome;
     img.className = "imagemResultadoPesquisa";
+
+    const infoDiv = document.createElement("div");
+    infoDiv.style.cssText = "display: flex; flex-direction: column; gap: 4px; flex: 1; min-width: 0;";
 
     const nome = document.createElement("span");
     nome.textContent = produto.nome;
     nome.className = "nomeResultadoPesquisa";
 
-    link.append(img, nome);
+    const preco = document.createElement("span");
+    preco.textContent = `R$ ${parseFloat(produto.preco).toLocaleString('pt-BR')}`;
+    preco.className = "precoResultadoPesquisa";
+
+    infoDiv.append(nome, preco);
+    link.append(img, infoDiv);
     item.appendChild(link);
     listaResultados.appendChild(item);
   });

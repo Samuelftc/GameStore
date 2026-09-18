@@ -46,6 +46,15 @@ class UsuarioModel
         return $stmt->fetch() !== false;
     }
 
+    public function atualizarSenha($id, $novaSenha)
+    {
+        $sql = "UPDATE usuarios 
+            SET senha = ? WHERE id = ?";
+
+        $stmt = $this->pdo->prepare($sql);
+        return $stmt->execute([$novaSenha, $id]);
+    }
+
     public function salvarTokenReset($id, $token, $expira)
     {
         $sql = "UPDATE usuarios 

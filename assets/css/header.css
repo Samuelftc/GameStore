@@ -142,36 +142,54 @@ header .divBarraDePesquisa button {
     padding: 8px 0;
 }
 
+.itemResultadoPesquisa {
+    margin: 0 8px;
+}
+
 .itemResultadoPesquisa a {
     display: flex;
     align-items: center;
     gap: 12px;
-    padding: 10px 16px;
+    padding: 12px;
     text-decoration: none;
-    transition: background-color 0.2s;
+    transition: all 0.2s ease;
+    border-radius: 6px;
+    margin: 4px 0;
 }
 
 .itemResultadoPesquisa a:hover {
-    background-color: #7b2fff25;
+    background-color: rgba(123, 47, 255, 0.15);
+    transform: translateX(4px);
 }
 
 .imagemResultadoPesquisa {
-    width: 50px;
-    height: 50px;
+    width: 48px;
+    height: 48px;
     object-fit: cover;
-    border-radius: 4px;
-    border: 1px solid #7b2fff;
+    border-radius: 6px;
+    border: 1.5px solid #7b2fff;
+    flex-shrink: 0;
 }
 
 .nomeResultadoPesquisa {
-    color: #00cc6e;
-    margin-left: 0px;
-    font-size: 0.9rem;
+    color: #00ff88;
+    font-size: 0.95rem;
+    font-weight: 600;
+    flex: 1;
+    white-space: nowrap;
+    overflow: hidden;
+    text-overflow: ellipsis;
+}
+
+.precoResultadoPesquisa {
+    color: #ffd700;
+    font-size: 0.85rem;
     font-weight: bold;
+    white-space: nowrap;
 }
 
 .itemResultadoPesquisa:not(:last-child) a {
-    border-bottom: 1px solid #ffffff10;
+    border-bottom: none;
 }
 
 /* Nenhum resultado */

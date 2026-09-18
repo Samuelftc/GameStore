@@ -59,7 +59,11 @@ if (btnFecharMeuPerfil) {
 const abaDados = document.getElementById('abaDados');
 const abaAlterarDados = document.getElementById('abaAlterarDados');
 const buttonAlterarDados = document.getElementById('buttonAlterarDados');
-const voltarParaDados = document.getElementById('voltarParaDados');
+
+const abaAlterarSenha = document.getElementById('abaAlterarSenha');
+const buttonAlterarSenha = document.getElementById('buttonAlterarSenha');
+
+const voltarParaDados = document.querySelectorAll('.voltarParaDados');
 
 if (buttonAlterarDados) {
     buttonAlterarDados.addEventListener('click', (e) => {
@@ -73,13 +77,24 @@ if (buttonAlterarDados) {
     });
 }
 
-if (voltarParaDados) {
-    voltarParaDados.addEventListener('click', (e) => {
+if (buttonAlterarSenha) {
+    buttonAlterarSenha.addEventListener('click', (e) => {
         e.preventDefault();
-        abaDados.style.display = 'block';
-        abaAlterarDados.style.display = 'none';
-        document.getElementById('avisoAtualizacao').style.display = 'none';
-        document.getElementById('erroAtualizacao').style.display = 'none';
+        abaDados.style.display = 'none';
+        abaAlterarSenha.style.display = 'block';
+    });
+}
+
+if (voltarParaDados) {
+    voltarParaDados.forEach((btn) => {
+        btn.addEventListener('click', (e) => {
+            e.preventDefault();
+            abaAlterarDados.style.display = 'none';
+            abaAlterarSenha.style.display = 'none';
+            abaDados.style.display = 'block';
+            document.getElementById('avisoAtualizacao').style.display = 'none';
+            document.getElementById('erroAtualizacao').style.display = 'none';
+        });
     });
 }
 
@@ -155,6 +170,87 @@ if (formAlterarDados) {
         } finally {
             btnSubmit.disabled = false;
             btnSubmit.textContent = 'Salvar Alterações';
+        }
+    });
+}
+
+// Form alterar senha
+const formAlterarSenha = document.getElementById('formAlterarSenha');
+if (formAlterarSenha) {
+    formAlterarSenha.addEventListener('submit', async (e) => {
+        e.preventDefault();
+
+        const senhaAtual = document.getElementById('inputSenhaAtual').value;
+        const novaSenha = document.getElementById('inputNovaSenha').value;
+        const confirmarSenha = document.getElementById('inputConfirmarSenha').value;
+        const btnSubmit = formAlterarSenha.querySelector('button[type="submit"]');
+        const divAviso = document.getElementById('avisoAlteracaoSenha');
+        const divErro = document.getElementById('erroAlteracaoSenha');
+
+        // Validações
+        if (!senhaAtual || !novaSenha || !confirmarSenha) {
+            divErro.textContent = 'Por favor, preencha todos os campos';
+            divErro.style.display = 'block';
+            divAviso.style.display = 'none';
+            return;
+        }
+
+        if (novaSenha !== confirmarSenha) {
+            divErro.textContent = 'As senhas não coincidem';
+            divErro.style.display = 'block';
+            divAviso.style.display = 'none';
+            return;
+        }
+
+        const regexSenha = /^(?=.*[a-z])(?=.*[A-Z])(?=.*\d)(?=.*[\W_]).{8,}$/;
+        if (!regexSenha.test(novaSenha)) {
+            divErro.textContent = 'Senha fraca. Mínimo 8 caracteres, maiúscula, minúscula, número e símbolo';
+            divErro.style.display = 'block';
+            divAviso.style.display = 'none';
+            return;
+        }
+
+        btnSubmit.disabled = true;
+        btnSubmit.textContent = 'Alterando...';
+
+        try {
+            const response = await fetch(`${BASE_URL}/API/auth/alterar-senha.php`, {
+                method: 'POST',
+                headers: {
+                    'Content-Type': 'application/x-www-form-urlencoded'
+                },
+                body: new URLSearchParams({
+                    senhaAtual: senhaAtual,
+                    novaSenha: novaSenha,
+                    confirmarSenha: confirmarSenha
+                })
+            });
+
+            const data = await response.json();
+
+            if (response.ok) {
+                divAviso.textContent = data.mensagem;
+                divAviso.style.display = 'block';
+                divErro.style.display = 'none';
+                formAlterarSenha.reset();
+
+                setTimeout(() => {
+                    abaDados.style.display = 'block';
+                    abaAlterarSenha.style.display = 'none';
+                    divAviso.style.display = 'none';
+                }, 1500);
+            } else {
+                divErro.textContent = data.mensagem || 'Erro ao alterar senha';
+                divErro.style.display = 'block';
+                divAviso.style.display = 'none';
+            }
+        } catch (error) {
+            console.error(error);
+            divErro.textContent = 'Erro ao alterar senha';
+            divErro.style.display = 'block';
+        } finally {
+            btnSubmit.disabled = false;
+            btnSubmit.textContent = 'Alterar Senha';
         }
     });
 }

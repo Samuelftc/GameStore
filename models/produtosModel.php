@@ -106,4 +106,46 @@ class ProdutosModel
         $stmt = $this->pdo->prepare($sql);
         $stmt->execute([$id]);
     }
+
+    public function listarPorBusca($termo, $tipo = null)
+    {
+        $sql = "
+        SELECT
+            p.*,
+            GROUP_CONCAT(DISTINCT c.nome) AS categorias,
+            GROUP_CONCAT(DISTINCT pl.nome) AS plataformas
+        FROM produtos p
+        LEFT JOIN produtos_categorias pc ON pc.produto_id = p.id
+        LEFT JOIN categorias c ON c.id = pc.categoria_id
+        LEFT JOIN produtos_plataformas pp ON pp.produto_id = p.id
+        LEFT JOIN plataformas pl ON pl.id = pp.plataforma_id
+        WHERE p.nome LIKE ? AND p.status = 1
+        ";
+
+        $params = ['%' . $termo . '%'];
+
+        if ($tipo) {
+            $sql .= " AND p.tipo = ?";
+            $params[] = $tipo;
+        }
+
+        $sql .= " GROUP BY p.id LIMIT 10";
+
+        $stmt = $this->pdo->prepare($sql);
+        $stmt->execute($params);
+
+        $produtos = $stmt->fetchAll(PDO::FETCH_ASSOC);
+
+        foreach ($produtos as &$produto) {
+            $produto['categorias'] = $produto['categorias']
+                ? explode(',', $produto['categorias'])
+                : [];
+
+            $produto['plataformas'] = $produto['plataformas']
+                ? explode(',', $produto['plataformas'])
+                : [];
+        }
+
+        return $produtos;
+    }
 }
