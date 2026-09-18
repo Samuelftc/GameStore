@@ -1,4 +1,39 @@
 /* Página produto.php */
+.body-produto {
+    background: linear-gradient(135deg, #1a0033 0%, #000814 50%, #00ff88 100%);
+    background-attachment: fixed;
+    position: relative;
+    overflow-x: hidden;
+}
+
+.body-produto::before {
+    content: '';
+    position: fixed;
+    top: 0;
+    left: 0;
+    width: 200%;
+    height: 200%;
+    background: repeating-linear-gradient(
+        45deg,
+        transparent,
+        transparent 10px,
+        rgba(123, 47, 255, 0.03) 10px,
+        rgba(123, 47, 255, 0.03) 20px
+    );
+    animation: scanlines 8s linear infinite;
+    pointer-events: none;
+    z-index: 1;
+}
+
+@keyframes scanlines {
+    0% {
+        transform: translateY(0);
+    }
+    100% {
+        transform: translateY(100%);
+    }
+}
+
 /* ===== CONTAINER GERAL ===== */
 #produtoContainer {
     max-width: 1200px;
@@ -6,6 +41,8 @@
     padding: 20px;
     color: #fff;
     border-radius: 10px;
+    position: relative;
+    z-index: 2;
 }
 
 /* ===== INFORMAÇÕES DO PRODUTO ===== */

@@ -156,7 +156,7 @@ function renderizarItemCarrinho(item) {
                 });
                 if (!response.ok) throw new Error('Erro ao atualizar');
                 item.quantidade--;
-                chamarToasts(`Quantidade de ${item.produto_nome} diminuída!`);
+                chamarToasts(`Quantidade de ${item.produto_nome} diminuída!`, 'sucesso');
             } else {
                 // Remover item (quantidade = 0)
                 const response = await fetch(`${BASE_URL}/API/carrinho/remover.php`, {
@@ -168,7 +168,7 @@ function renderizarItemCarrinho(item) {
                 itensNoCarrinho = itensNoCarrinho.filter(
                     carrinhoItem => carrinhoItem.id !== item.id
                 );
-                chamarToasts(`${item.produto_nome} removido do carrinho!`);
+                chamarToasts(`${item.produto_nome} removido do carrinho!`, 'sucesso');
             }
 
 
@@ -214,7 +214,7 @@ function renderizarItemCarrinho(item) {
             itensNoCarrinho = data.carrinho || [];
 
             atualizarCarrinho(itensNoCarrinho);
-            chamarToasts(`Quantidade de ${item.produto_nome} aumentada!`);
+            chamarToasts(`Quantidade de ${item.produto_nome} aumentada!`, 'sucesso');
         } catch (error) {
             chamarToasts('Erro ao atualizar carrinho');
         }
@@ -253,15 +253,25 @@ function calculaQuantidadeCarrinho() {
     }
 }
 
-function chamarToasts(message) {
+function chamarToasts(message, tipo = 'erro') {
     const toast = document.createElement('div');
-    toast.className = 'toast';
-    toast.textContent = message;
+    toast.className = `toast toast-${tipo}`;
 
+    const icon = document.createElement('i');
+    icon.className = tipo === 'sucesso' ? 'fa-solid fa-check-circle' : 'fa-solid fa-exclamation-circle';
+
+    const texto = document.createElement('span');
+    texto.textContent = message;
+
+    toast.appendChild(icon);
+    toast.appendChild(texto);
     document.body.appendChild(toast);
 
     setTimeout(() => {
-        toast.remove();
+        toast.classList.add('toast-saindo');
+        setTimeout(() => {
+            toast.remove();
+        }, 300);
     }, 3000);
 }
 

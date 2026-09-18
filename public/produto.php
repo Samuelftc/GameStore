@@ -10,7 +10,7 @@ require_once '../config/config.php';
 
 <?php include INCLUDES_PATH . "/head.php" ?>
 
-<body>
+<body class="body-produto">
     <?php include INCLUDES_PATH . '/header.php'; ?>
     <?php include INCLUDES_PATH . '/carrinho.php'; ?>
     <?php include INCLUDES_PATH . '/meuPerfil.php'; ?>

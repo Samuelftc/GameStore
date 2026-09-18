@@ -60,7 +60,7 @@ if (formCadastro) {
       }
 
       if (resposta.sucesso && response.ok) {
-        chamarToastCadastro(`${resposta.mensagem}`);
+        chamarToastCadastro(`${resposta.mensagem}`, true);
 
         formCadastro.reset();
 
@@ -68,25 +68,35 @@ if (formCadastro) {
           location.reload();
         }, 1500);
       } else {
-        chamarToastCadastro(`${resposta.mensagem || "Ocorreu um erro ao cadastrar. Por favor, tente novamente."}`);
+        chamarToastCadastro(`${resposta.mensagem || "Ocorreu um erro ao cadastrar. Por favor, tente novamente."}`, false);
       }
 
     } catch (error) {
-      chamarToastCadastro("Erro ao enviar o formulário.");
+      chamarToastCadastro("Erro ao enviar o formulário.", false);
     }
   })
 }
 
 
-function chamarToastCadastro(message) {
+function chamarToastCadastro(message, sucesso = false) {
   const toast = document.createElement("div");
-  toast.className = "toastCadastro";
-  toast.textContent = message;
+  toast.className = `toastCadastro ${sucesso ? 'toast-sucesso' : 'toast-erro'}`;
 
+  const icon = document.createElement("i");
+  icon.className = sucesso ? "fa-solid fa-check-circle" : "fa-solid fa-exclamation-circle";
+
+  const texto = document.createElement("span");
+  texto.textContent = message;
+
+  toast.appendChild(icon);
+  toast.appendChild(texto);
   document.body.appendChild(toast);
 
   setTimeout(() => {
-    toast.remove();
+    toast.classList.add("toast-saindo");
+    setTimeout(() => {
+      toast.remove();
+    }, 300);
   }, 3000);
 }
 // Fim da lógica de cadastro
@@ -123,7 +133,7 @@ if (formLogin) {
       }
 
       if (resposta.sucesso && response.ok) {
-        chamarToastLogin(`${resposta.mensagem}`);
+        chamarToastLogin(`${resposta.mensagem}`, true);
 
         formLogin.reset();
 
@@ -131,25 +141,35 @@ if (formLogin) {
           window.location.href = `${BASE_URL}/public/index.php`
         }, 1500);
       } else {
-        chamarToastLogin(`${resposta.mensagem || "Ocorreu um erro ao cadastrar. Por favor, tente novamente."}`);
+        chamarToastLogin(`${resposta.mensagem || "Ocorreu um erro ao cadastrar. Por favor, tente novamente."}`, false);
       }
 
     } catch (error) {
-      chamarToastLogin("Erro ao enviar o formulário.");
+      chamarToastLogin("Erro ao enviar o formulário.", false);
     }
 
   });
 }
 
-function chamarToastLogin(message) {
+function chamarToastLogin(message, sucesso = false) {
   const toast = document.createElement("div");
-  toast.className = "toastLogin";
-  toast.textContent = message;
+  toast.className = `toastLogin ${sucesso ? 'toast-sucesso' : 'toast-erro'}`;
 
+  const icon = document.createElement("i");
+  icon.className = sucesso ? "fa-solid fa-check-circle" : "fa-solid fa-exclamation-circle";
+
+  const texto = document.createElement("span");
+  texto.textContent = message;
+
+  toast.appendChild(icon);
+  toast.appendChild(texto);
   document.body.appendChild(toast);
 
   setTimeout(() => {
-    toast.remove();
+    toast.classList.add("toast-saindo");
+    setTimeout(() => {
+      toast.remove();
+    }, 300);
   }, 3000);
 }
 

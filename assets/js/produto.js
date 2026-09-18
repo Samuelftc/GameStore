@@ -108,7 +108,7 @@ async function adicionarNoCarrinho(produtoId) {
             throw new Error(data.mensagem);
         }
 
-        chamarToasts(data.mensagem);
+        chamarToasts(data.mensagem, 'sucesso');
         await carregarCarrinho();
 
     } catch (error) {

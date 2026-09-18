@@ -29,7 +29,7 @@ if (formEsqueceuSenha) {
             const data = await response.json();
 
             if (response.ok) {
-                chamarToasts('Email enviado com sucesso! Verifique sua caixa de entrada');
+                chamarToasts('Email enviado com sucesso! Verifique sua caixa de entrada', 'sucesso');
                 setTimeout(() => {
                     window.location.href = `${BASE_URL}/public/auth.php`;
                 }, 2000);

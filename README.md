@@ -1,6 +1,6 @@
 # GameStore
 
-Sistema completo de e-commerce de jogos digitais e hardware. Aplicação full-stack com autenticação de usuários, gerenciamento de carrinho, processamento de pedidos e painel administrativo (em desenvolvimento).
+Sistema completo de e-commerce de jogos digitais e hardware. Aplicação full-stack com autenticação segura, recuperação de senha por email, gerenciamento de carrinho persistente, processamento de pedidos e design moderno e responsivo.
 
 ---
 
@@ -14,23 +14,25 @@ GameStore é uma loja online de jogos e hardware com arquitetura moderna, separa
 
 ## Funcionalidades
 
-### Implementadas
+### ✅ Implementadas
 
 - **Autenticação** — Login, cadastro, logout com sessões seguras
 - **Carrinho de compras** — Adicionar, remover, atualizar quantidade (com persistência no BD)
 - **Catálogo dinâmico** — Listagem de jogos e hardware com filtros por categoria/plataforma
+- **Busca de produtos** — Busca em tempo real de jogos e hardware
 - **Detalhe do produto** — Visualização completa de cada item
 - **Checkout** — Fluxo completo de finalização de compra
 - **Pedidos** — Criação, listagem, visualização de histórico de compras
-- **Perfil do usuário** — Dados pessoais, quantidade de compras
+- **Perfil do usuário** — Alterar dados pessoais e senha, recuperação de senha por email
+- **Recuperação de senha** — Email com link seguro via PHPMailer (SMTP real)
+- **Segurança** — Bcrypt, prepared statements, session regeneration
 - **Interface responsiva** — Otimizada para mobile, tablet e desktop
+- **Design moderno** — Tema dark/cyber com Orbitron + Inter
 
-### Em progresso
+### Futuro
 
-- Painel administrativo (listar pedidos, usuários, status)
-- Recuperação de senha por email
-- Alterar dados do usuário
-- Trocar senha
+- Painel administrativo
+- Testes automatizados
 
 ---
 
@@ -38,8 +40,10 @@ GameStore é uma loja online de jogos e hardware com arquitetura moderna, separa
 
 ### Front-end
 - **HTML5** — Estrutura semântica
-- **CSS3** — Layout responsivo, animações
+- **CSS3** — Layout responsivo, animações, tema dark/cyber
 - **JavaScript** — Vanilla JS, Fetch API, tratamento de eventos
+- **Fontes** — Orbitron (headings/buttons), Inter (body text)
+- **Font Awesome** — Ícones para UI
 
 ### Back-end
 - **PHP 7.4+** — Processamento server-side
@@ -66,7 +70,7 @@ GameStore é uma loja online de jogos e hardware com arquitetura moderna, separa
 
 1. **Clone o repositório:**
 ```bash
-git clone https://github.com/samuel208-max/gamestore.git
+git clone https://github.com/samuelftc/gamestore.git
 cd gamestore
 ```
 
@@ -212,9 +216,11 @@ GET /API/pedidos/listar.php
 ## Status
 
 ✅ **Funcionalidades core:** Completas e testadas  
-✅ **Documentação:** Swagger OpenAPI completo  
-🚧 **Extras:** Painel admin, recuperação de senha em progresso  
-📋 **Próximo:** Testes automatizados, deploy
+✅ **Features extras:** Recuperação de senha, alterar dados, trocar senha — implementadas  
+✅ **Documentação:** Swagger OpenAPI completo com 13+ endpoints  
+✅ **Design:** Otimizado com tipografia consistente e tema moderno  
+✅ **Segurança:** Bcrypt, prepared statements, session segura implementados  
+📋 **Próximo:** Painel administrativo, testes automatizados, deploy
 
 ---
 
